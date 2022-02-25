@@ -29,12 +29,12 @@ const Login = ({navigation}) => {
         password: password,
       };
       const result = await UserLogin(body);
-      console.log(result.data.result.token);
       dispatch(loginAction(result.data.result.token));
       const userData = await GetUserData(result.data.result.token);
       dispatch(saveAction(userData.data.result.result[0]));
+      navigation.navigate('Content');
     } catch (error) {
-      console.log(error);
+      console.log('ERROR AXIOS', error);
     }
   };
 
@@ -43,7 +43,11 @@ const Login = ({navigation}) => {
       <ImageBackground
         source={require('../../assets/Login-background.jpg')}
         style={styles.image}>
-        <Text style={styles.text}>LET'S EXPLORE THE WORLD</Text>
+        <Text
+          style={styles.text}
+          onPress={() => navigation.navigate('Content')}>
+          LET'S EXPLORE THE WORLD
+        </Text>
         <KeyboardAvoidingView>
           <View>
             <TextInput

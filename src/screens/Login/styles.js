@@ -55,6 +55,7 @@ export const styles = StyleSheet.create({
   btnText: {
     fontWeight: '800',
     fontSize: 18,
+    color: '#393939',
   },
   signup: {
     position: 'absolute',
