@@ -11,6 +11,12 @@ import Profile from './screens/profile';
 import Search from './screens/search';
 import Chat from './screens/Chat';
 import Category from './screens/VehicleCategory';
+import Detail from './screens/VehicleDetail/index';
+import FirstStep from './screens/CheckOut/firstStep';
+import secondStep from './screens/CheckOut/secondStep';
+import lastStep from './screens/CheckOut/lastStep';
+import Done from './screens/CheckOut/Done';
+import History from './screens/history/index';
 
 import {
   Text,
@@ -36,6 +42,11 @@ const Router = () => (
     <Stack.Screen name="forgot_password" component={Forgot_Password} />
     <Stack.Screen name="Content" component={TabsNav} />
     <Stack.Screen name="Category" component={Category} />
+    <Stack.Screen name="Detail" component={Detail} />
+    <Stack.Screen name="FirstStep" component={FirstStep} />
+    <Stack.Screen name="secondStep" component={secondStep} />
+    <Stack.Screen name="lastStep" component={lastStep} />
+    <Stack.Screen name="Done" component={Done} />
   </Stack.Navigator>
 );
 
@@ -45,6 +56,17 @@ const HomeTab = () => (
       headerShown: false,
     }}>
     <Stack.Screen name="Home" component={Home} />
+  </Stack.Navigator>
+);
+
+const ProfileTab = () => (
+  <Stack.Navigator
+    screenOptions={{
+      headerShown: false,
+    }}>
+    <Stack.Screen name="profile" component={Profile} />
+
+    <Stack.Screen name="History" component={History} />
   </Stack.Navigator>
 );
 
@@ -137,7 +159,7 @@ const TabsNav = () => (
         ),
       }}
       name="Profile"
-      component={Profile}
+      component={ProfileTab}
     />
   </Tab.Navigator>
 );

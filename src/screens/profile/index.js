@@ -14,7 +14,12 @@ import React, {useState} from 'react';
 const Profile = ({navigation}) => {
   return (
     <View>
-      <Text>Profile Page</Text>
+      <Text
+        onPress={() => {
+          navigation.navigate('History');
+        }}>
+        Profile Page
+      </Text>
     </View>
   );
 };

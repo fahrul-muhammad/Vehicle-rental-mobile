@@ -8,6 +8,7 @@ import {
   View,
   ScrollView,
   FlatList,
+  Touchable,
 } from 'react-native';
 import React, {useState, useEffect} from 'react';
 
@@ -39,7 +40,18 @@ const Category = ({navigation, route}) => {
       {data.map(val => {
         console.log('VAL', val);
         return (
-          <View style={styles.card}>
+          <TouchableOpacity
+            style={styles.card}
+            onPress={async () => {
+              try {
+                const params = {
+                  id: val.id,
+                };
+                navigation.navigate('Detail', params);
+              } catch (error) {
+                console.log(error);
+              }
+            }}>
             <Image
               source={{
                 uri: `${process.env.LOCAL_HOST}/${val.photos}`,
@@ -53,7 +65,7 @@ const Category = ({navigation, route}) => {
             </Text>
             <Text style={styles.avail}>Available</Text>
             <Text style={styles.price}>{val.Price}/Day</Text>
-          </View>
+          </TouchableOpacity>
         );
       })}
     </ScrollView>
