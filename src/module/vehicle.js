@@ -41,3 +41,13 @@ export const GetByCategory = category => {
   console.log('AXIOS URL', URL);
   return axios.get(URL);
 };
+
+export const AddNewVehicle = body => {
+  const URL = `http://192.168.1.6:8000/vehicle/test`;
+  return axios({
+    method: 'POST',
+    url: URL,
+    headers: {'Content-type': 'multipart/form-data'},
+    data: body,
+  });
+};

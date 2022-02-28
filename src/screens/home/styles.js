@@ -1,3 +1,4 @@
+import {position} from 'native-base/lib/typescript/theme/styled-system';
 import {StyleSheet} from 'react-native';
 
 export const styles = StyleSheet.create({
@@ -9,6 +10,18 @@ export const styles = StyleSheet.create({
   image: {
     width: '100%',
     height: 200,
+  },
+  addBtn: {
+    backgroundColor: '#FFCD61',
+    width: '90%',
+    marginLeft: '5%',
+    height: '5.5%',
+    position: 'absolute',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    top: '5.8%',
+    borderRadius: 10,
   },
   first: {
     fontSize: 25,

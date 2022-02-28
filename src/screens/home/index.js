@@ -38,6 +38,7 @@ class Home extends React.Component {
     this.getMotor();
     this.getBike();
     this.GetFavorite();
+    console.log('CONSOLE LOG HOME', this.props.users);
   }
 
   getCarr = async () => {
@@ -88,6 +89,20 @@ class Home extends React.Component {
           style={styles.image}
           source={require('../../assets/home-background.jpg')}
         />
+        {this.props.users.role_id == 3 ? (
+          <TouchableOpacity
+            style={styles.addBtn}
+            onPress={() => this.props.navigation.navigate('AddVehicle')}>
+            <Text
+              style={{
+                fontSize: 18,
+                fontWeight: '700',
+                color: 'black',
+              }}>
+              Add New Vehicle
+            </Text>
+          </TouchableOpacity>
+        ) : null}
         <Text style={styles.first}>Favorite</Text>
         {/* <Text style={styles.firstLink}>See All</Text> */}
         <View style={styles.recomendContainer}>
@@ -203,6 +218,7 @@ class Home extends React.Component {
 const mapStateToProps = state => {
   return {
     token: state.auth.token,
+    users: state.auth.userData,
   };
 };
 

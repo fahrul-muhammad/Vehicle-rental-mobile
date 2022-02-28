@@ -17,6 +17,8 @@ import secondStep from './screens/CheckOut/secondStep';
 import lastStep from './screens/CheckOut/lastStep';
 import Done from './screens/CheckOut/Done';
 import History from './screens/history/index';
+import AddVehicle from './screens/AddVehicle/index';
+import UpdateProfile from './screens/profile/update';
 
 import {
   Text,
@@ -47,6 +49,7 @@ const Router = () => (
     <Stack.Screen name="secondStep" component={secondStep} />
     <Stack.Screen name="lastStep" component={lastStep} />
     <Stack.Screen name="Done" component={Done} />
+    <Stack.Screen name="UpdateProfile" component={UpdateProfile} />
   </Stack.Navigator>
 );
 
@@ -56,6 +59,7 @@ const HomeTab = () => (
       headerShown: false,
     }}>
     <Stack.Screen name="Home" component={Home} />
+    <Stack.Screen name="AddVehicle" component={AddVehicle} />
   </Stack.Navigator>
 );
 
