@@ -15,6 +15,9 @@ import {styles} from './styles';
 import {connect} from 'react-redux';
 import {AddNewVehicle} from '../../module/vehicle';
 import {launchImageLibrary} from 'react-native-image-picker';
+import RNFetchBlob from 'rn-fetch-blob';
+
+import FormsData from 'form-data';
 
 const AddVehicle = ({navigation, params}) => {
   const [type, setType] = useState('Select Category');
@@ -39,32 +42,100 @@ const AddVehicle = ({navigation, params}) => {
   };
 
   const openLibrary = () => {
-    launchImageLibrary({}, response => {
+    launchImageLibrary({includeBase64: true}, response => {
       if (response.assets[0].uri) {
-        console.log('BERHASIL', response);
+        // console.log('BERHASIL', response);
         setPhoto(response.assets[0]);
         setImage(response.assets[0].uri);
       }
     });
   };
 
-  const addItems = async () => {
-    const forms = new FormData();
-    const test = forms.append('file', photo);
+  // const openGallery = () => {
+  //   ImagePicker.openPicker({
+  //     cropping: true,
+  //   })
+  //     .then(image => {
+  //       console.log('IMAGE BRO', image);
+  //       setPhoto(image);
+  //       setImage(image.path);
+  //     })
+  //     .catch(err => {
+  //       console.log(err);
+  //     });
+  // };
 
+  const addItems = async () => {
     try {
-      // const datas = await AddNewVehicle(test);
-      const datas = await fetch('http://192.168.1.6:8000/vehicle/test', {
-        method: 'post',
-        body: photo,
-        headers: {
-          'Content-Type': 'multipart/form-data; ',
+      const forms = new FormsData();
+      // forms.append('name', name);
+      // forms.append('price', price);
+      // forms.append('category', type);
+      // forms.append('image', photo);
+      // forms.append('stock', stock);
+      // forms.append('description', desc);
+      // forms.append('location', location);
+
+      const img = [
+        {
+          name: 'images',
+          type: 'image/png',
+          filename: photo,
+          data: RNFetchBlob.wrap(photo.uri),
         },
-      });
-      console.log(datas);
+      ];
+
+      forms.append('image', img);
+
+      const result = await AddNewVehicle(img);
+      console.log(result.data);
     } catch (error) {
       console.log(error);
     }
+  };
+
+  const testUplods = () => {
+    RNFetchBlob.fetch(
+      'POST',
+      `${process.env.LOCAL_HOST}/vehicle`,
+      {
+        'Content-Type': 'multipart/form-data',
+      },
+      [
+        {
+          name: 'image',
+          type: photo.type,
+          filename: photo.fileName,
+          data: RNFetchBlob.wrap(photo.uri),
+        },
+        {
+          name: 'name',
+          data: JSON.stringify(name),
+        },
+        {
+          name: 'price',
+          data: JSON.stringify(price),
+        },
+        {
+          name: 'category',
+          data: JSON.stringify(type),
+        },
+        {
+          name: 'stock',
+          data: JSON.stringify(stock),
+        },
+        {
+          name: 'description',
+          data: JSON.stringify(desc),
+        },
+        {
+          name: 'location',
+          data: JSON.stringify(location),
+        },
+      ],
+    )
+      .then(res => console.log(res.data))
+      .catch(ers => console.log(ers));
   };
 
   return (
@@ -241,7 +312,7 @@ const AddVehicle = ({navigation, params}) => {
             </Text>
           </TouchableOpacity>
         </View>
-        <TouchableOpacity onPress={() => addItems()} style={styles.btn}>
+        <TouchableOpacity onPress={testUplods} style={styles.btn}>
           <Text
             style={{
               fontSize: 20,

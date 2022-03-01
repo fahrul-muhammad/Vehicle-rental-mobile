@@ -2,6 +2,7 @@ import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {StyleSheet} from 'react-native';
+import {NativeBaseProvider} from 'native-base';
 
 import Login from './screens/Login';
 import Signup from './screens/signup';
@@ -35,22 +36,24 @@ const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
 const Router = () => (
-  <Stack.Navigator
-    screenOptions={{
-      headerShown: false,
-    }}>
-    <Stack.Screen name="Login" component={Login} />
-    <Stack.Screen name="SignUp" component={Signup} />
-    <Stack.Screen name="forgot_password" component={Forgot_Password} />
-    <Stack.Screen name="Content" component={TabsNav} />
-    <Stack.Screen name="Category" component={Category} />
-    <Stack.Screen name="Detail" component={Detail} />
-    <Stack.Screen name="FirstStep" component={FirstStep} />
-    <Stack.Screen name="secondStep" component={secondStep} />
-    <Stack.Screen name="lastStep" component={lastStep} />
-    <Stack.Screen name="Done" component={Done} />
-    <Stack.Screen name="UpdateProfile" component={UpdateProfile} />
-  </Stack.Navigator>
+  <NativeBaseProvider>
+    <Stack.Navigator
+      screenOptions={{
+        headerShown: false,
+      }}>
+      <Stack.Screen name="Login" component={Login} />
+      <Stack.Screen name="SignUp" component={Signup} />
+      <Stack.Screen name="forgot_password" component={Forgot_Password} />
+      <Stack.Screen name="Content" component={TabsNav} />
+      <Stack.Screen name="Category" component={Category} />
+      <Stack.Screen name="Detail" component={Detail} />
+      <Stack.Screen name="FirstStep" component={FirstStep} />
+      <Stack.Screen name="secondStep" component={secondStep} />
+      <Stack.Screen name="lastStep" component={lastStep} />
+      <Stack.Screen name="Done" component={Done} />
+      <Stack.Screen name="UpdateProfile" component={UpdateProfile} />
+    </Stack.Navigator>
+  </NativeBaseProvider>
 );
 
 const HomeTab = () => (

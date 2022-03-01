@@ -25,7 +25,7 @@ export const getVehicleById = id => {
 };
 
 export const SearchVehicle = (name, token) => {
-  const URL = `${process.env.LOCAL_HOST}//vehicle/search?name=${name}`;
+  const URL = `${process.env.LOCAL_HOST}/vehicle/search?name=${name}`;
   console.log('AXIOS URL', URL);
   return axios.get(URL, {headers: {token: token}});
 };
@@ -43,11 +43,15 @@ export const GetByCategory = category => {
 };
 
 export const AddNewVehicle = body => {
-  const URL = `http://192.168.1.6:8000/vehicle/test`;
+  const URL = `${process.env.LOCAL_HOST}/vehicle`;
+  console.log('BODY AXIOS', body);
   return axios({
     method: 'POST',
     url: URL,
-    headers: {'Content-type': 'multipart/form-data'},
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'multipart/form-data',
+    },
     data: body,
   });
 };
