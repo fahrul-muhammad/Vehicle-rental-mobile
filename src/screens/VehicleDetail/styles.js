@@ -63,11 +63,11 @@ export const styles = StyleSheet.create({
   inputDate: {
     backgroundColor: '#efefef',
     position: 'absolute',
-    top: '75%',
+    top: '77%',
     left: '5%',
     width: '50%',
     opacity: 1,
-    height: '7%',
+    height: '7.1%',
     color: 'white',
   },
   dayInput: {

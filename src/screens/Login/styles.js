@@ -38,12 +38,11 @@ export const styles = StyleSheet.create({
   },
   forgot: {
     paddingTop: '3%',
-    paddingLeft: '10%',
     color: '#fff',
+    textAlign: 'center',
   },
   button: {
     width: '80%',
-    marginBottom: '15%',
     backgroundColor: '#FFCD61',
     height: '11%',
     marginLeft: '10%',
@@ -58,9 +57,14 @@ export const styles = StyleSheet.create({
     color: '#393939',
   },
   signup: {
-    position: 'absolute',
-    bottom: '15%',
-    left: '10%',
+    paddingTop: '3%',
     color: '#FFF',
+    textAlign: 'center',
+  },
+  error: {
+    color: 'red',
+    fontWeight: '600',
+    paddingTop: '1%',
+    textAlign: 'center',
   },
 });
