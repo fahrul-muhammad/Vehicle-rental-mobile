@@ -17,7 +17,7 @@ export const styles = StyleSheet.create({
   },
   email: {
     marginLeft: '10%',
-    paddingLeft: 5,
+    paddingLeft: 20,
     height: '15%',
     width: '80%',
     color: 'black',
@@ -34,7 +34,9 @@ export const styles = StyleSheet.create({
     backgroundColor: '#FFFF',
     marginTop: '5%',
     opacity: 0.8,
+    paddingLeft: 20,
     borderRadius: 6,
+    justifyContent: 'center',
   },
   forgot: {
     paddingTop: '3%',

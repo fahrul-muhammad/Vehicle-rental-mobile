@@ -37,6 +37,7 @@ const Login = ({navigation}) => {
       dispatch(loginAction(result.data.result.token));
       const userData = await GetUserData(result.data.result.token);
       dispatch(saveAction(userData.data.result.result[0]));
+      setPending(false);
       navigation.navigate('Content');
     } catch (error) {
       setPending(false);
@@ -66,11 +67,14 @@ const Login = ({navigation}) => {
                 onChangeText={text => setEmail(text)}
                 placeholder="email"
                 style={styles.email}
+                placeholderTextColor={'black'}
               />
               <TextInput
+                secureTextEntry={true}
                 onChangeText={text => setPassword(text)}
                 placeholder="Password"
                 style={styles.password}
+                placeholderTextColor={'black'}
               />
               {isError ? (
                 <Text style={styles.error}>

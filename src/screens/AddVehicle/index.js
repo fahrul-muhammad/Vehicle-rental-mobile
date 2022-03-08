@@ -12,12 +12,13 @@ import {
 import React, {useState, useEffect} from 'react';
 import {Picker} from '@react-native-picker/picker';
 import {styles} from './styles';
-import {connect} from 'react-redux';
+import {connect, useSelector} from 'react-redux';
 import {AddNewVehicle} from '../../module/vehicle';
 import {launchImageLibrary} from 'react-native-image-picker';
 import RNFetchBlob from 'rn-fetch-blob';
 
 import FormsData from 'form-data';
+import AppLoader from '../AppLoader';
 
 const AddVehicle = ({navigation, params}) => {
   const [type, setType] = useState('Select Category');
@@ -28,6 +29,9 @@ const AddVehicle = ({navigation, params}) => {
   const [location, setLocation] = useState('');
   const [photo, setPhoto] = useState('');
   const [desc, setDesc] = useState('');
+  const [isPending, setPending] = useState(false);
+
+  const token = useSelector(state => state.auth.token);
 
   const plusCount = () => {
     setStock(stock + 1);
@@ -94,12 +98,14 @@ const AddVehicle = ({navigation, params}) => {
     }
   };
 
-  const testUplods = () => {
+  const uploadVehicle = async () => {
+    setPending(true);
     RNFetchBlob.fetch(
       'POST',
       `${process.env.LOCAL_HOST}/vehicle`,
       {
         'Content-Type': 'multipart/form-data',
+        token: token,
       },
       [
         {
@@ -134,185 +140,206 @@ const AddVehicle = ({navigation, params}) => {
         },
       ],
     )
-      .then(res => console.log(res.data))
-      .catch(ers => console.log(ers));
+      .then(res => {
+        console.log(res.data.result);
+        const data = JSON.parse(res.data);
+        console.log('ID', data.result.id);
+        setPending(false);
+        try {
+          const params = {
+            id: data.result.id,
+          };
+          navigation.navigate('Detail', params);
+        } catch (error) {
+          console.log(error);
+        }
+      })
+      .catch(ers => {
+        setPending(false);
+      });
   };
 
   return (
-    <ScrollView
-      contentContainerStyle={{
-        flexGrow: 1,
-      }}
-      style={styles.container}>
-      <Text style={styles.head}>Add new item</Text>
-      <Text
-        style={{
-          position: 'absolute',
-          top: '3%',
-          fontSize: 23,
-          right: '5.5%',
-        }}>
-        Cancel
-      </Text>
-      <View
-        style={{
-          width: '100%',
-          height: 120,
-          position: 'relative',
-        }}>
-        <View style={styles.photo}>
-          <Image
-            style={{
-              resizeMode: 'cover',
-              width: '100%',
-              height: '100%',
-              borderRadius: 50,
-            }}
-            source={{
-              uri: image,
-            }}
-          />
-        </View>
-        <View style={styles.add}>
-          <Text
-            style={{
-              fontSize: 30,
-              // fontWeight: '800',
-              // textAlign: 'center',
-              // paddingTop: '5%',
-            }}
-            onPress={() => openLibrary()}>
-            +
-          </Text>
-        </View>
-      </View>
-      <KeyboardAvoidingView>
-        <View
+    <>
+      <ScrollView
+        contentContainerStyle={{
+          flexGrow: 1,
+        }}
+        style={styles.container}>
+        <Text style={styles.head}>Add new item</Text>
+        <Text
           style={{
-            width: '90%',
-            marginLeft: '5%',
+            position: 'absolute',
+            top: '3%',
+            fontSize: 23,
+            right: '5.5%',
           }}>
-          <Text style={styles.label}>Name</Text>
-          <TextInput
-            onChangeText={text => setName(text)}
-            style={styles.input}
-            placeholder="Input the product name min.30"
-          />
-        </View>
+          Cancel
+        </Text>
         <View
           style={{
-            width: '90%',
-            marginLeft: '5%',
-            marginTop: '3%',
-          }}>
-          <Text style={styles.label}>Price</Text>
-          <TextInput
-            onChangeText={text => setPrice(parseInt(text))}
-            style={styles.input}
-            placeholder="Input the product Price"
-          />
-        </View>
-        <View
-          style={{
-            width: '90%',
-            marginLeft: '5%',
-            marginTop: '3%',
-          }}>
-          <Text style={styles.label}>Description</Text>
-          <TextInput
-            onChangeText={text => setDesc(text)}
-            style={styles.input}
-            placeholder="Type delivery information"
-          />
-        </View>
-        <View
-          style={{
-            width: '90%',
-            marginLeft: '5%',
-            marginTop: '3%',
-          }}>
-          <Text style={styles.label}>Location</Text>
-          <TextInput
-            onChangeText={text => setLocation(text)}
-            style={styles.input}
-            placeholder="input the product location"
-          />
-        </View>
-        <View
-          style={{
-            width: '90%',
-            marginLeft: '5%',
-            marginTop: '3%',
-          }}>
-          <Text style={styles.label}>Add To</Text>
-          <Picker
-            style={styles.drop}
-            onValueChange={val => setType(val)}
-            selectedValue={type}>
-            <Picker.Item
-              style={{
-                textAlign: 'center',
-                fontWeight: 'bold',
-              }}
-              label="Select category"
-            />
-            <Picker.Item value={1} label={'Car'} />
-            <Picker.Item value={2} label={'Motorbike'} />
-            <Picker.Item value={3} label={'Bike'} />
-          </Picker>
-        </View>
-        <View
-          style={{
-            width: '90%',
-            marginLeft: '5%',
-            marginTop: '3%',
+            width: '100%',
+            height: 120,
             position: 'relative',
-            display: 'flex',
-            justifyContent: 'center',
           }}>
-          <Text style={styles.label}>Available Stock</Text>
-          <TouchableOpacity
-            style={{
-              ...styles.countBtn,
-              position: 'absolute',
-              right: 0,
-            }}
-            onPress={() => plusCount()}>
+          <View style={styles.photo}>
+            <Image
+              style={{
+                resizeMode: 'cover',
+                width: '100%',
+                height: '100%',
+                borderRadius: 50,
+              }}
+              source={
+                image !== ''
+                  ? {
+                      uri: image,
+                    }
+                  : require('../../assets/icons/walk.png')
+              }
+            />
+          </View>
+          <View style={styles.add}>
             <Text
               style={{
-                fontSize: 19,
-                fontWeight: '700',
-              }}>
+                fontSize: 30,
+                // fontWeight: '800',
+                // textAlign: 'center',
+                // paddingTop: '5%',
+              }}
+              onPress={() => openLibrary()}>
               +
             </Text>
-          </TouchableOpacity>
-          <Text
+          </View>
+        </View>
+        <KeyboardAvoidingView>
+          <View
             style={{
-              position: 'absolute',
-              right: '13%',
-              fontSize: 15,
-              fontWeight: '700',
-              color: 'black',
+              width: '90%',
+              marginLeft: '5%',
             }}>
-            {stock}
-          </Text>
-          <TouchableOpacity
+            <Text style={styles.label}>Name</Text>
+            <TextInput
+              onChangeText={text => setName(text)}
+              style={styles.input}
+              placeholder="Input the product name min.30"
+            />
+          </View>
+          <View
             style={{
-              ...styles.countBtn,
-              position: 'absolute',
-              right: '20%',
-            }}
-            onPress={() => minusCount()}>
+              width: '90%',
+              marginLeft: '5%',
+              marginTop: '3%',
+            }}>
+            <Text style={styles.label}>Price</Text>
+            <TextInput
+              onChangeText={text => setPrice(parseInt(text))}
+              style={styles.input}
+              placeholder="Input the product Price"
+            />
+          </View>
+          <View
+            style={{
+              width: '90%',
+              marginLeft: '5%',
+              marginTop: '3%',
+            }}>
+            <Text style={styles.label}>Description</Text>
+            <TextInput
+              onChangeText={text => setDesc(text)}
+              style={styles.input}
+              placeholder="Type delivery information"
+            />
+          </View>
+          <View
+            style={{
+              width: '90%',
+              marginLeft: '5%',
+              marginTop: '3%',
+            }}>
+            <Text style={styles.label}>Location</Text>
+            <TextInput
+              onChangeText={text => setLocation(text)}
+              style={styles.input}
+              placeholder="input the product location"
+            />
+          </View>
+          <View
+            style={{
+              width: '90%',
+              marginLeft: '5%',
+              marginTop: '3%',
+            }}>
+            <Text style={styles.label}>Add To</Text>
+            <Picker
+              style={styles.drop}
+              onValueChange={val => setType(val)}
+              selectedValue={type}>
+              <Picker.Item
+                style={{
+                  textAlign: 'center',
+                  fontWeight: 'bold',
+                }}
+                label="Select category"
+              />
+              <Picker.Item value={1} label={'Car'} />
+              <Picker.Item value={2} label={'Motorbike'} />
+              <Picker.Item value={3} label={'Bike'} />
+            </Picker>
+          </View>
+          <View
+            style={{
+              width: '90%',
+              marginLeft: '5%',
+              marginTop: '3%',
+              position: 'relative',
+              display: 'flex',
+              justifyContent: 'center',
+            }}>
+            <Text style={styles.label}>Available Stock</Text>
+            <TouchableOpacity
+              style={{
+                ...styles.countBtn,
+                position: 'absolute',
+                right: 0,
+              }}
+              onPress={() => plusCount()}>
+              <Text
+                style={{
+                  fontSize: 19,
+                  fontWeight: '700',
+                }}>
+                +
+              </Text>
+            </TouchableOpacity>
             <Text
               style={{
-                fontSize: 19,
+                position: 'absolute',
+                right: '13%',
+                fontSize: 15,
                 fontWeight: '700',
+                color: 'black',
               }}>
-              -
+              {stock}
             </Text>
-          </TouchableOpacity>
-        </View>
-        <TouchableOpacity onPress={testUplods} style={styles.btn}>
+            <TouchableOpacity
+              style={{
+                ...styles.countBtn,
+                position: 'absolute',
+                right: '20%',
+              }}
+              onPress={() => minusCount()}>
+              <Text
+                style={{
+                  fontSize: 19,
+                  fontWeight: '700',
+                }}>
+                -
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </KeyboardAvoidingView>
+        <TouchableOpacity onPress={() => uploadVehicle()} style={styles.btn}>
           <Text
             style={{
               fontSize: 20,
@@ -322,8 +349,9 @@ const AddVehicle = ({navigation, params}) => {
             Save Product
           </Text>
         </TouchableOpacity>
-      </KeyboardAvoidingView>
-    </ScrollView>
+      </ScrollView>
+      {isPending ? <AppLoader /> : null}
+    </>
   );
 };
 

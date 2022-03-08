@@ -16,6 +16,8 @@ import {styles} from './styles';
 import {useSelector} from 'react-redux';
 import {GetUserHistory} from '../../module/history';
 
+import AppLoader from '../AppLoader/index';
+
 const History = ({navigation, route}) => {
   const token = useSelector(state => state.auth.token);
   const [data, setData] = useState([]);
@@ -36,79 +38,96 @@ const History = ({navigation, route}) => {
   };
 
   return (
-    <View style={styles.container}>
-      <ScrollView
-        contentContainerStyle={{
-          flexGrow: 1,
-        }}
-        style={{width: '100%', height: '100%'}}>
-        <Text style={styles.title}>History Order</Text>
-        <View
+    <>
+      {data.length < 5 ? (
+        <AppLoader />
+      ) : (
+        <ScrollView
+          contentContainerStyle={{
+            flexGrow: 1,
+          }}
           style={{
-            display: 'flex',
-            flexDirection: 'row',
-            width: '90%',
-            marginTop: '5%',
-            marginLeft: '5%',
-            position: 'relative',
+            width: '100%',
+            backgroundColor: 'white',
+            minHeight: '100%',
           }}>
-          <Text
-            style={{
-              fontSize: 15,
-              textAlign: 'center',
-              position: 'absolute',
-              left: '37%',
-              top: '0%',
-            }}>
-            A Month Ago
-          </Text>
-          <Text
-            style={{
-              textAlign: 'right',
-              fontSize: 15,
-              position: 'absolute',
-              right: ' 5%',
-              top: '0%',
-            }}>
-            {select ? 'Delet' : 'Select'}
-          </Text>
-        </View>
-        {data.map(val => {
-          return (
-            <View style={styles.card}>
-              <Image
-                style={styles.image}
-                source={{
-                  uri: `${process.env.LOCAL_HOST}/${val.image}`,
-                }}
-              />
-              <Text style={styles.name}>{val.vehicle}</Text>
-              <Text style={styles.date}>{val.date}</Text>
-              <Text style={styles.price}>Prepayment : Rp.{val.prepayment}</Text>
-              <Text
-                style={{
-                  fontWeight: '600',
-                  fontSize: 15,
-                  position: 'absolute',
-                  color: val.status == 'HASBEEN RETURN' ? 'green' : 'red',
-                  left: '40%',
-                  top: '55%',
-                }}>
-                {val.status}
-              </Text>
-              <Checkbox
-                style={styles.check}
-                value={select}
-                onValueChange={value => setSelect(value)}
-                onCheckColor="black"
-                animationDuration={0.5}
-              />
-            </View>
-          );
-        })}
-      </ScrollView>
-    </View>
+          <Text style={styles.title}>History Order</Text>
+          <View style={styles.subTitle}>
+            <Text style={styles.text}>A Week Ago</Text>
+            <Text style={styles.text}>Select</Text>
+          </View>
+          {data.map(val => {
+            return (
+              <View style={styles.card} key={val.id}>
+                <Image
+                  style={styles.img}
+                  source={{
+                    uri: `${process.env.LOCAL_HOST}/${val.image}`,
+                  }}
+                />
+                <View style={styles.desc}>
+                  <Text
+                    style={{
+                      paddingTop: '5%',
+                      fontSize: 15,
+                      color: 'black',
+                      fontWeight: '700',
+                    }}>
+                    {val.vehicle}
+                  </Text>
+                  <Text
+                    style={{
+                      paddingTop: '5%',
+                      fontSize: 15,
+                      color: 'black',
+                    }}>
+                    {val.date}
+                  </Text>
+                  <Text
+                    style={{
+                      paddingTop: '5%',
+                      fontSize: 15,
+                      color: 'black',
+                    }}>
+                    Prepayment: Rp. {val.prepayment}
+                  </Text>
+                  <Text
+                    style={{
+                      paddingTop: '5%',
+                      fontSize: 15,
+                      color: 'green',
+                      fontWeight: '700',
+                    }}>
+                    {val.status}
+                  </Text>
+                </View>
+                <Checkbox
+                  style={{
+                    marginVertical: '15%',
+                  }}
+                  value={select}
+                  onValueChange={value => setSelect(value)}
+                  onCheckColor="black"
+                  animationDuration={0.5}
+                />
+              </View>
+            );
+          })}
+        </ScrollView>
+      )}
+    </>
   );
 };
 
 export default History;
+
+/* 
+
+<Checkbox
+                  style={styles.check}
+                  value={select}
+                  onValueChange={value => setSelect(value)}
+                  onCheckColor="black"
+                  animationDuration={0.5}
+                />
+*/

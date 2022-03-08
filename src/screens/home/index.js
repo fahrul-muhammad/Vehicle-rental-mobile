@@ -12,6 +12,7 @@ import {
 import React, {useState, useEffect} from 'react';
 import {styles} from './styles';
 import {connect} from 'react-redux';
+import AppLoader from '../AppLoader/index';
 
 import {
   GetAllBike,
@@ -30,6 +31,7 @@ class Home extends React.Component {
       motor: [],
       bike: [],
       favorite: [],
+      isPending: false,
     };
   }
 
@@ -38,7 +40,6 @@ class Home extends React.Component {
     this.getMotor();
     this.getBike();
     this.GetFavorite();
-    console.log('CONSOLE LOG HOME', this.props.users);
   }
 
   getCarr = async () => {
@@ -84,133 +85,150 @@ class Home extends React.Component {
 
   render() {
     return (
-      <ScrollView style={styles.container}>
-        <Image
-          style={styles.image}
-          source={require('../../assets/home-background.jpg')}
-        />
-        {this.props.users.role_id == 3 ? (
-          <TouchableOpacity
-            style={styles.addBtn}
-            onPress={() => this.props.navigation.navigate('AddVehicle')}>
+      <>
+        {this.state.car.length < 5 &&
+        this.state.bike.length < 5 &&
+        this.state.motor.length < 5 &&
+        this.state.favorite.length < 5 ? (
+          <AppLoader />
+        ) : (
+          <ScrollView style={styles.container}>
+            <Image
+              style={styles.image}
+              source={require('../../assets/home-background.jpg')}
+            />
+            {this.props.users.role_id == 3 ? (
+              <TouchableOpacity
+                style={styles.addBtn}
+                onPress={() => this.props.navigation.navigate('AddVehicle')}>
+                <Text
+                  style={{
+                    fontSize: 18,
+                    fontWeight: '700',
+                    color: 'black',
+                  }}>
+                  Add New Vehicle
+                </Text>
+              </TouchableOpacity>
+            ) : null}
+            <Text style={styles.first}>Favorite</Text>
+            {/* <Text style={styles.firstLink}>See All</Text> */}
+            <View style={styles.recomendContainer}>
+              <ScrollView
+                horizontal={true}
+                showsHorizontalScrollIndicator={false}>
+                {this.state.favorite.map(val => {
+                  return (
+                    <Image
+                      key={val.vehicle_id}
+                      style={styles.cardImg}
+                      source={{
+                        uri: `${process.env.LOCAL_HOST}/${val.photo}`,
+                      }}
+                    />
+                  );
+                })}
+              </ScrollView>
+            </View>
+            <Text style={styles.first}>Car</Text>
             <Text
-              style={{
-                fontSize: 18,
-                fontWeight: '700',
-                color: 'black',
+              style={styles.carLink}
+              onPress={async () => {
+                try {
+                  const param = {
+                    category: 'car',
+                  };
+                  this.props.navigation.navigate('Category', param);
+                } catch (error) {
+                  console.log(error);
+                }
               }}>
-              Add New Vehicle
+              See All
             </Text>
-          </TouchableOpacity>
-        ) : null}
-        <Text style={styles.first}>Favorite</Text>
-        {/* <Text style={styles.firstLink}>See All</Text> */}
-        <View style={styles.recomendContainer}>
-          <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
-            {this.state.favorite.map(val => {
-              return (
-                <Image
-                  key={val.id}
-                  style={styles.cardImg}
-                  source={{
-                    uri: `${process.env.LOCAL_HOST}/${val.photo}`,
-                  }}
-                />
-              );
-            })}
+            <View style={styles.recomendContainer}>
+              <ScrollView
+                horizontal={true}
+                showsHorizontalScrollIndicator={false}>
+                {this.state.car.map(val => {
+                  return (
+                    <Image
+                      key={val.vehicle_id}
+                      style={styles.cardImg}
+                      source={{
+                        uri: `${process.env.LOCAL_HOST}/${val.photos}`,
+                      }}
+                    />
+                  );
+                })}
+              </ScrollView>
+            </View>
+            <Text style={styles.first}>Motor Bike</Text>
+            <Text
+              onPress={async () => {
+                try {
+                  const param = {
+                    category: 'motorbike',
+                  };
+                  this.props.navigation.navigate('Category', param);
+                } catch (error) {
+                  console.log(error);
+                }
+              }}
+              style={styles.motorLink}>
+              See All
+            </Text>
+            <View style={styles.recomendContainer}>
+              <ScrollView
+                horizontal={true}
+                showsHorizontalScrollIndicator={false}>
+                {this.state.motor.map(val => {
+                  return (
+                    <Image
+                      key={val.vehicle_id}
+                      style={styles.cardImg}
+                      source={{
+                        uri: `${process.env.LOCAL_HOST}/${val.photos}`,
+                      }}
+                    />
+                  );
+                })}
+              </ScrollView>
+            </View>
+            <Text style={styles.first}>Bike</Text>
+            <Text
+              onPress={async () => {
+                try {
+                  const param = {
+                    category: 'bike',
+                  };
+                  this.props.navigation.navigate('Category', param);
+                } catch (error) {
+                  console.log(error);
+                }
+              }}
+              style={styles.bikeLink}>
+              See All
+            </Text>
+            <View style={styles.lastContainer}>
+              <ScrollView
+                horizontal={true}
+                showsHorizontalScrollIndicator={false}>
+                {this.state.bike.map(val => {
+                  return (
+                    <Image
+                      key={val.vehicle_id}
+                      style={styles.cardImg}
+                      source={{
+                        uri: `${process.env.LOCAL_HOST}/${val.photos}`,
+                      }}
+                    />
+                  );
+                })}
+              </ScrollView>
+            </View>
           </ScrollView>
-        </View>
-        <Text style={styles.first}>Car</Text>
-        <Text
-          style={styles.carLink}
-          onPress={async () => {
-            try {
-              const param = {
-                category: 'car',
-              };
-              this.props.navigation.navigate('Category', param);
-            } catch (error) {
-              console.log(error);
-            }
-          }}>
-          See All
-        </Text>
-        <View style={styles.recomendContainer}>
-          <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
-            {this.state.car.map(val => {
-              return (
-                <Image
-                  key={val.id}
-                  style={styles.cardImg}
-                  source={{
-                    uri: `${process.env.LOCAL_HOST}/${val.photos}`,
-                  }}
-                />
-              );
-            })}
-          </ScrollView>
-        </View>
-        <Text style={styles.first}>Motor Bike</Text>
-        <Text
-          onPress={async () => {
-            try {
-              const param = {
-                category: 'motorbike',
-              };
-              this.props.navigation.navigate('Category', param);
-            } catch (error) {
-              console.log(error);
-            }
-          }}
-          style={styles.motorLink}>
-          See All
-        </Text>
-        <View style={styles.recomendContainer}>
-          <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
-            {this.state.motor.map(val => {
-              return (
-                <Image
-                  key={val.id}
-                  style={styles.cardImg}
-                  source={{
-                    uri: `${process.env.LOCAL_HOST}/${val.photos}`,
-                  }}
-                />
-              );
-            })}
-          </ScrollView>
-        </View>
-        <Text style={styles.first}>Bike</Text>
-        <Text
-          onPress={async () => {
-            try {
-              const param = {
-                category: 'bike',
-              };
-              this.props.navigation.navigate('Category', param);
-            } catch (error) {
-              console.log(error);
-            }
-          }}
-          style={styles.bikeLink}>
-          See All
-        </Text>
-        <View style={styles.lastContainer}>
-          <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
-            {this.state.bike.map(val => {
-              return (
-                <Image
-                  key={val.id}
-                  style={styles.cardImg}
-                  source={{
-                    uri: `${process.env.LOCAL_HOST}/${val.photos}`,
-                  }}
-                />
-              );
-            })}
-          </ScrollView>
-        </View>
-      </ScrollView>
+        )}
+      </>
     );
   }
 }

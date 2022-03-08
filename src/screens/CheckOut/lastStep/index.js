@@ -16,7 +16,7 @@ import {useSelector} from 'react-redux';
 import {styles} from './styles';
 import {CheckOut} from '../../../module/checkout';
 
-const lastStep = ({navigation, route}) => {
+const LastStep = ({navigation, route}) => {
   const {id} = useSelector(state => state.auth.userData);
   const token = useSelector(state => state.auth.token);
 
@@ -238,4 +238,4 @@ const lastStep = ({navigation, route}) => {
   );
 };
 
-export default lastStep;
+export default LastStep;

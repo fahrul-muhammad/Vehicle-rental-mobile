@@ -14,7 +14,7 @@ import {Picker} from '@react-native-picker/picker';
 import React, {useState, useEffect} from 'react';
 import {styles} from './styles';
 
-const secondStep = ({navigation, route}) => {
+const SecondStep = ({navigation, route}) => {
   console.log('SECOND STEP PARAMS', route.params);
 
   const formater = num => {
@@ -136,4 +136,4 @@ const secondStep = ({navigation, route}) => {
   );
 };
 
-export default secondStep;
+export default SecondStep;
