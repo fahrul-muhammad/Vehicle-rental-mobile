@@ -55,3 +55,9 @@ export const AddNewVehicle = body => {
     data: body,
   });
 };
+
+export const updateVehicle = (id, body, token) => {
+  const URL = `${process.env.LOCAL_HOST}/vehicle/update/${id}`;
+  console.log('BODY AXIOS', body);
+  return axios.patch(URL, body, {headers: {token: token}});
+};

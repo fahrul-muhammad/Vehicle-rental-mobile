@@ -16,6 +16,8 @@ import {getVehicleById} from '../../module/vehicle';
 import {styles} from './styles';
 import {useSelector} from 'react-redux';
 import AppLoader from '../AppLoader';
+import {updateVehicle} from '../../module/vehicle';
+import RNFetchBlob from 'rn-fetch-blob';
 
 const Detail = ({navigation, route}) => {
   const [data, setData] = useState([]);
@@ -23,6 +25,13 @@ const Detail = ({navigation, route}) => {
   const [day, setDay] = useState('1 Day');
   const [isPending, setPending] = useState(false);
   console.log('PARAMS', route.params.id);
+
+  // UPDATE STATE
+  const [name, setName] = useState(data.name);
+  const [price, setPrice] = useState(data.price);
+  const [location, setLocation] = useState(data.location);
+  const [status, setStatus] = useState(data.status);
+  const regx = /\w+\s*/g;
 
   const GetVehicle = async () => {
     try {
@@ -36,6 +45,7 @@ const Detail = ({navigation, route}) => {
   };
 
   const users = useSelector(state => state.auth.userData);
+  const token = useSelector(state => state.auth.token);
 
   useEffect(() => {
     GetVehicle();
@@ -54,6 +64,56 @@ const Detail = ({navigation, route}) => {
       return;
     }
   };
+
+  const updateData = () => {
+    // try {
+    //
+    //   const result = await updateVehicle(data.id, form, token);
+    //   console.log(result.data);
+    //   setPending(false);
+    // } catch (error) {
+    //   console.log(error);
+    //
+    // }
+    setPending(true);
+    RNFetchBlob.fetch(
+      'PATCH',
+      `${process.env.LOCAL_HOST}/vehicle/update/${data.id}`,
+      {
+        'Content-Type': 'multipart/form-data',
+        token: token,
+      },
+      [
+        {
+          name: 'name',
+          data: name,
+        },
+        {
+          name: 'price',
+          data: price,
+        },
+        {
+          name: 'location',
+          data: JSON.stringify(location),
+        },
+        {
+          name: 'stock',
+          data: JSON.stringify(count),
+        },
+      ],
+    )
+      .then(res => {
+        console.log(res.data);
+        console.log('BERHASIL');
+        setPending(false);
+        navigation.navigate('Home');
+      })
+      .catch(err => {
+        console.log(err);
+        setPending(false);
+      });
+  };
+
   return (
     <>
       {Object.keys(data).length < 6 ? (
@@ -107,141 +167,199 @@ const Detail = ({navigation, route}) => {
             />
           </View>
           <Text style={styles.back}>Back</Text>
-          <Text style={styles.name}>{data.name}</Text>
-          <Text style={styles.price}>{data.price}/Day</Text>
+          {data.user_id !== users.id ? (
+            <Text style={styles.name}>{String(data.name).match(regx)}</Text>
+          ) : (
+            <TextInput
+              onChangeText={text => setName(text)}
+              style={styles.name}
+              defaultValue={`${String(data.name).match(regx)}`}
+            />
+          )}
+          {data.user_id !== users.id ? (
+            <Text style={styles.price}>{data.price}/Day</Text>
+          ) : (
+            <TextInput
+              style={styles.price}
+              defaultValue={`${data.price}/Day`}
+              onChangeText={text => setPrice(text)}
+            />
+          )}
           <Text style={styles.capacity}>Max For 2 Person</Text>
           <Text style={styles.prepayment}>No Prepayment</Text>
           <Text style={styles.avail}>Available</Text>
           <View
             style={{
-              backgroundColor: '#FFCD6170',
-              width: 50,
-              height: 50,
-              left: '5%',
-              top: '1.5%',
-              borderRadius: 10,
+              display: 'flex',
+              alignItems: 'center',
+              flexDirection: 'row',
             }}>
-            <Image
+            <View
               style={{
-                opacity: 1,
-                top: '15%',
-                left: '25%',
-                width: 25,
-                height: 35,
-              }}
-              source={require('../../assets/icons/titik.png')}
-            />
+                backgroundColor: '#FFCD6170',
+                width: 50,
+                height: 50,
+                marginLeft: '5%',
+                borderRadius: 10,
+                marginTop: '3%',
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}>
+              <Image
+                style={{
+                  width: 25,
+                  height: 35,
+                }}
+                source={require('../../assets/icons/titik.png')}
+              />
+            </View>
+            {data.user_id !== users.id ? (
+              <Text style={styles.location}>{data.location}</Text>
+            ) : (
+              <TextInput
+                onChangeText={text => setLocation(text)}
+                defaultValue={`${String(data.location).match(regx)}`}
+                style={styles.location}
+              />
+            )}
           </View>
-          <Text style={styles.location}>{data.location}</Text>
           <View
             style={{
-              backgroundColor: '#FFCD6170',
-              width: 50,
-              height: 50,
-              left: '5%',
-              top: '3%',
-              borderRadius: 10,
+              display: 'flex',
+              alignItems: 'center',
+              flexDirection: 'row',
             }}>
-            <Image
+            <View
               style={{
-                opacity: 1,
-                top: '15%',
-                left: '25%',
-                width: 25,
-                height: 35,
+                backgroundColor: '#FFCD6170',
+                width: 50,
+                height: 50,
+                marginLeft: '5%',
+                borderRadius: 10,
+                marginTop: '3%',
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}>
+              <Image
+                style={{
+                  width: 25,
+                  height: 35,
+                }}
+                source={require('../../assets/icons/walk.png')}
+              />
+            </View>
+            <Text style={styles.location}>2 kilometer from your location</Text>
+          </View>
+          <View
+            style={{
+              display: 'flex',
+              justifyContent: 'center',
+              marginTop: '3%',
+            }}>
+            <Text
+              style={{
+                left: '5%',
+                top: '5%',
+                fontWeight: '700',
+                fontSize: 20,
+                color: 'black',
+              }}>
+              {data.user_id !== users.id
+                ? `Select ${data.category}`
+                : `Update Stock`}
+            </Text>
+            <TouchableOpacity
+              style={{
+                position: 'absolute',
+                backgroundColor: '#FFCD61',
+                width: 29,
+                height: 29,
+                right: '25%',
+                borderRadius: 50,
               }}
-              source={require('../../assets/icons/walk.png')}
-            />
+              onPress={minusCount}>
+              <Text
+                style={{
+                  fontWeight: '800',
+                  fontSize: 20,
+                  color: 'black',
+                  textAlign: 'center',
+                }}>
+                -
+              </Text>
+            </TouchableOpacity>
+            <Text
+              style={{
+                color: 'black',
+                position: 'absolute',
+                right: '17.5%',
+                fontWeight: '700',
+              }}>
+              {count}
+            </Text>
+            <TouchableOpacity
+              style={{
+                position: 'absolute',
+                backgroundColor: '#FFCD61',
+                width: 29,
+                height: 29,
+                right: '5%',
+                borderRadius: 50,
+              }}
+              onPress={plusCount}>
+              <Text
+                style={{
+                  fontWeight: '800',
+                  fontSize: 20,
+                  color: 'black',
+                  textAlign: 'center',
+                }}>
+                +
+              </Text>
+            </TouchableOpacity>
           </View>
-          <Text
+          <View
             style={{
-              left: '20%',
-              fontSize: 20,
-              position: 'absolute',
-              top: '60.5%',
+              display: 'flex',
+              flexDirection: 'row',
+              justifyContent: 'space-around',
+              marginTop: '5%',
             }}>
-            2 Kilometer From Your Location
-          </Text>
-          <Text
-            style={{
-              left: '5%',
-              top: '5%',
-              fontWeight: '700',
-              fontSize: 20,
-              color: 'black',
-            }}>
-            Select {data.category}
-          </Text>
-          <TouchableOpacity
-            style={{
-              position: 'absolute',
-              backgroundColor: '#FFCD61',
-              width: 29,
-              height: 29,
-              right: '25%',
-              top: '67%',
-              borderRadius: 50,
-            }}
-            onPress={minusCount}>
-            <Text
-              style={{
-                fontWeight: '800',
-                fontSize: 20,
-                color: 'black',
-                textAlign: 'center',
-              }}>
-              -
-            </Text>
-          </TouchableOpacity>
-          <Text
-            style={{
-              color: 'black',
-              position: 'absolute',
-              right: '17.5%',
-              top: '67.5%',
-              fontWeight: '700',
-            }}>
-            {count}
-          </Text>
-          <TouchableOpacity
-            style={{
-              position: 'absolute',
-              backgroundColor: '#FFCD61',
-              width: 29,
-              height: 29,
-              right: '5%',
-              top: '67%',
-              borderRadius: 50,
-            }}
-            onPress={plusCount}>
-            <Text
-              style={{
-                fontWeight: '800',
-                fontSize: 20,
-                color: 'black',
-                textAlign: 'center',
-              }}>
-              +
-            </Text>
-          </TouchableOpacity>
-          <View style={styles.inputDate}>
-            <Text
-              style={{
-                color: 'black',
-                textAlign: 'center',
-                paddingTop: '9%',
-              }}>
-              Select Date
-            </Text>
+            {data.user_id !== users.id ? (
+              <>
+                <View style={styles.inputDate}>
+                  <Text
+                    style={{
+                      color: 'black',
+                      textAlign: 'center',
+                      paddingTop: '9%',
+                    }}>
+                    Select Date
+                  </Text>
+                </View>
+                <Picker
+                  style={styles.dayInput}
+                  selectedValue={day}
+                  onValueChange={val => setDay(val)}>
+                  <Picker.Item label="1 Day" value={'1 Day'} />
+                  <Picker.Item label="2 Day" value={'2 Day'} />
+                  <Picker.Item label="3 Day" value={'3 Day'} />
+                </Picker>
+              </>
+            ) : (
+              <>
+                <Picker
+                  style={styles.editStatus}
+                  selectedValue={day}
+                  onValueChange={val => setDay(val)}>
+                  <Picker.Item label="Not Available" value={'Not Available'} />
+                  <Picker.Item label="Available" value={'Available'} />
+                </Picker>
+              </>
+            )}
           </View>
-          <Picker
-            style={styles.dayInput}
-            selectedValue={day}
-            onValueChange={val => setDay(val)}>
-            <Picker.Item label="1 Day" value={'1 Day'} />
-            <Picker.Item label="2 Day" value={'2 Day'} />
-            <Picker.Item label="3 Day" value={'3 Day'} />
-          </Picker>
           {data.user_id !== users.id ? (
             <TouchableOpacity
               style={styles.btn}
@@ -263,28 +381,13 @@ const Detail = ({navigation, route}) => {
               <Text style={styles.btnText}>Reservation</Text>
             </TouchableOpacity>
           ) : (
-            <TouchableOpacity
-              style={styles.btn}
-              onPress={async () => {
-                try {
-                  const params = {
-                    id: route.params.id,
-                    day: day,
-                    quantity: count,
-                    totalPrice: count * data.price,
-                    image: data.image,
-                    vehicleName: data.name,
-                  };
-                  navigation.navigate('FirstStep', params);
-                } catch (error) {
-                  console.log(error);
-                }
-              }}>
+            <TouchableOpacity style={styles.btn} onPress={() => updateData()}>
               <Text style={styles.btnText}>Edit</Text>
             </TouchableOpacity>
           )}
         </View>
       )}
+      {isPending ? <AppLoader /> : null}
     </>
   );
 };

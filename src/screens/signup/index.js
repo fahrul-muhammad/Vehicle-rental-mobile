@@ -11,63 +11,109 @@ import {
 import React, {useState} from 'react';
 
 import {styles} from './styles';
-import {SignUp} from '../../module/auth';
+import {SignUp, Login, GetUserData} from '../../module/auth';
+import AppLoader from '../AppLoader/index';
+import {useDispatch} from 'react-redux';
+
+import {loginAction, saveAction} from '../../redux/action/auth';
 
 const Signup = ({navigation}) => {
   const [email, setEmail] = useState('');
   const [name, setName] = useState('');
   const [password, setPassword] = useState('');
+  const [isError, setError] = useState(false);
+  const [isPending, setPending] = useState(false);
+
+  const dispatch = useDispatch();
 
   const userSignUp = async () => {
     try {
+      setError(false);
       const body = {
         name: name,
         email: email,
         password: password,
       };
+      console.log('BODY BODY', body);
+      setPending(true);
       const result = await SignUp(body);
-      console.log(result.data);
-      if (result.data.result == 'selamat datang') {
-        navigation.navigate('Login');
-      }
+      console.log('result sign up', result);
+      const bodyLogin = {
+        email: email,
+        password: password,
+      };
+      const autoLogin = await Login(bodyLogin);
+      dispatch(loginAction(autoLogin.data.result.token));
+      const userData = await GetUserData(autoLogin.data.result.token);
+      dispatch(saveAction(userData.data.result.result[0]));
+      setPending(false);
+      navigation.navigate('Content');
     } catch (error) {
+      setPending(false);
+      setError(true);
       console.log(error);
     }
   };
-
   return (
-    <View style={styles.container}>
-      <ImageBackground
-        source={require('../../assets/signup-background.jpg')}
-        style={styles.image}>
-        <Text style={styles.text}>LET’S HAVE SOME RIDE</Text>
-        <KeyboardAvoidingView>
-          <View>
-            <TextInput
-              onChangeText={text => setName(text)}
-              placeholder="Name"
-              style={styles.email}
-            />
-            <TextInput
-              onChangeText={text => setEmail(text)}
-              placeholder="Email"
-              style={styles.phone}
-            />
-            <TextInput
-              onChangeText={text => setPassword(text)}
-              placeholder="Password"
-              style={styles.password}
-            />
-          </View>
-        </KeyboardAvoidingView>
-        <TouchableOpacity onPress={userSignUp} style={styles.button}>
-          <Text style={styles.btnText}>Sign up</Text>
-        </TouchableOpacity>
-        <Text style={styles.login} onPress={() => navigation.navigate('Login')}>
-          Already have an account? Let's Login
-        </Text>
-      </ImageBackground>
-    </View>
+    <>
+      <ScrollView
+        contentContainerStyle={{
+          flexGrow: 1,
+        }}
+        style={styles.container}>
+        <ImageBackground
+          source={require('../../assets/signup-background.jpg')}
+          style={styles.image}>
+          <Text
+            style={styles.text}
+            onPress={() => navigation.navigate('Content')}>
+            Let's Explore The World
+          </Text>
+          <KeyboardAvoidingView>
+            <View
+              style={{
+                marginTop: '20%',
+              }}>
+              <TextInput
+                placeholder="name"
+                style={styles.name}
+                placeholderTextColor={'black'}
+                onChangeText={text => setName(text)}
+              />
+              <TextInput
+                placeholder="email"
+                style={styles.email}
+                placeholderTextColor={'black'}
+                onChangeText={text => setEmail(text)}
+              />
+              <TextInput
+                style={styles.password}
+                secureTextEntry={true}
+                placeholder="Password"
+                placeholderTextColor={'black'}
+                onChangeText={text => setPassword(text)}
+              />
+              {isError ? (
+                <Text style={styles.error}>Something wrong,Try Again</Text>
+              ) : null}
+            </View>
+            <TouchableOpacity
+              onPress={() => userSignUp()}
+              style={styles.button}>
+              <Text style={styles.btnText}>Sign Up</Text>
+            </TouchableOpacity>
+            <Text
+              onPress={() => {
+                navigation.navigate('Login');
+              }}
+              style={styles.signup}>
+              Already have an account? lets Login
+            </Text>
+          </KeyboardAvoidingView>
+        </ImageBackground>
+      </ScrollView>
+      {isPending ? <AppLoader /> : null}
+    </>
   );
 };
 

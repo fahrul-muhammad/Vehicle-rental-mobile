@@ -16,10 +16,12 @@ import {useSelector, useDispatch} from 'react-redux';
 import {updateProfile} from '../../../module/users';
 import {launchImageLibrary} from 'react-native-image-picker';
 import RNFetchBlob from 'rn-fetch-blob';
+
 import AppLoader from '../../AppLoader';
+import Toast, {BaseToast} from 'react-native-toast-message';
 
 import {GetUserData} from '../../../module/auth';
-import {saveAction} from '../../../redux/action/auth';
+import {saveAction, logout} from '../../../redux/action/auth';
 
 const UpdateProfile = ({navigation, params}) => {
   const users = useSelector(state => state.auth.userData);
@@ -89,6 +91,7 @@ const UpdateProfile = ({navigation, params}) => {
           .then(result => {
             console.log('USER RESULT', result.data.result.result[0]);
             dispatch(saveAction(result.data.result.result[0]));
+            showToast();
           })
           .catch(error);
       })
@@ -96,6 +99,13 @@ const UpdateProfile = ({navigation, params}) => {
         console.log(err);
         setPendding(false);
       });
+  };
+
+  const showToast = () => {
+    Toast.show({
+      type: 'success',
+      text1: 'Update Success',
+    });
   };
 
   const openLibrary = () => {
@@ -230,7 +240,18 @@ const UpdateProfile = ({navigation, params}) => {
             placeholder={users.address}
           />
         </KeyboardAvoidingView>
-        <TouchableOpacity onPress={() => profileUpdate()} style={styles.btn}>
+        <TouchableOpacity
+          disabled={
+            name == users.name ||
+            email == users.email ||
+            phone == users.phone ||
+            dob == users.DoB ||
+            address == users.address
+              ? false
+              : true
+          }
+          onPress={() => profileUpdate()}
+          style={styles.btn}>
           <Text
             style={{
               fontWeight: '700',
@@ -241,6 +262,7 @@ const UpdateProfile = ({navigation, params}) => {
         </TouchableOpacity>
       </ScrollView>
       {isPendding ? <AppLoader /> : null}
+      <Toast position="bottom" />
     </>
   );
 };

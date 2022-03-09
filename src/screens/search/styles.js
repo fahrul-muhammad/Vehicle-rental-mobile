@@ -10,10 +10,12 @@ export const styles = StyleSheet.create({
     marginTop: '5%',
     backgroundColor: '#C4C4C4',
     borderRadius: 10,
+    paddingLeft: 20,
+    color: '#000',
   },
   card: {
     width: '90%',
-    height: '30%',
+    height: 300,
     marginLeft: '5%',
     marginTop: '5%',
     borderRadius: 10,

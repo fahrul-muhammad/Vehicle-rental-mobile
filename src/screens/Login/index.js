@@ -32,6 +32,7 @@ const Login = ({navigation}) => {
         email: email,
         password: password,
       };
+      setError(false);
       setPending(true);
       const result = await UserLogin(body);
       dispatch(loginAction(result.data.result.token));

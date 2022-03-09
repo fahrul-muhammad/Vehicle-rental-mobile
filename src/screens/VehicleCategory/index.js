@@ -14,9 +14,11 @@ import React, {useState, useEffect} from 'react';
 
 import {styles} from './styles';
 import {GetByCategory} from '../../module/vehicle';
+import AppLoader from '../AppLoader';
 
 const Category = ({navigation, route}) => {
   const [data, setData] = useState([]);
+  const regx = /\w+\s*/g;
 
   useEffect(() => {
     getVehicle();
@@ -35,40 +37,51 @@ const Category = ({navigation, route}) => {
 
   console.log('PARAMS', route.params.category);
   return (
-    <ScrollView showsVerticalScrollIndicator={false} style={styles.container}>
-      <Text style={styles.head}>{route.params.category}</Text>
-      {data.map(val => {
-        console.log('VAL', val);
-        return (
-          <TouchableOpacity
-            style={styles.card}
-            onPress={async () => {
-              try {
-                const params = {
-                  id: val.id,
-                };
-                navigation.navigate('Detail', params);
-              } catch (error) {
-                console.log(error);
-              }
-            }}>
-            <Image
-              source={{
-                uri: `${process.env.LOCAL_HOST}/${val.photos}`,
-              }}
-              style={styles.cardImg}
-            />
-            <Text style={styles.name}>{val.Vehicle_Name}</Text>
-            <Text style={styles.capacity}>Max For 2 Person</Text>
-            <Text style={styles.distance}>
-              2.1 Kilometer From Your Location
-            </Text>
-            <Text style={styles.avail}>Available</Text>
-            <Text style={styles.price}>{val.Price}/Day</Text>
-          </TouchableOpacity>
-        );
-      })}
-    </ScrollView>
+    <>
+      {data.length < 5 ? (
+        <AppLoader />
+      ) : (
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          style={styles.container}>
+          <Text style={styles.head}>{route.params.category}</Text>
+          {data.map(val => {
+            console.log('VAL', val);
+            return (
+              <TouchableOpacity
+                key={val.id}
+                style={styles.card}
+                onPress={async () => {
+                  try {
+                    const params = {
+                      id: val.id,
+                    };
+                    navigation.navigate('Detail', params);
+                  } catch (error) {
+                    console.log(error);
+                  }
+                }}>
+                <Image
+                  source={{
+                    uri: `${process.env.LOCAL_HOST}/${val.photos}`,
+                  }}
+                  style={styles.cardImg}
+                />
+                <Text style={styles.name}>
+                  {String(val.Vehicle_Name).match(regx)}
+                </Text>
+                <Text style={styles.capacity}>Max For 2 Person</Text>
+                <Text style={styles.distance}>
+                  2.1 Kilometer From Your Location
+                </Text>
+                <Text style={styles.avail}>Available</Text>
+                <Text style={styles.price}>{val.Price}/Day</Text>
+              </TouchableOpacity>
+            );
+          })}
+        </ScrollView>
+      )}
+    </>
   );
 };
 

@@ -52,7 +52,19 @@ const Search = ({navigation, params}) => {
       />
       {datas.map(val => {
         return (
-          <View key={val.id} style={[styles.card, styles.elevation]}>
+          <TouchableOpacity
+            onPress={async () => {
+              try {
+                const params = {
+                  id: val.id,
+                };
+                navigation.navigate('Detail', params);
+              } catch (error) {
+                console.log(error);
+              }
+            }}
+            key={val.id}
+            style={[styles.card, styles.elevation]}>
             <Image
               resizeMode="cover"
               style={styles.imgCard}
@@ -64,7 +76,7 @@ const Search = ({navigation, params}) => {
             <Text style={styles.nameCard}>{val.Vehicle_Name}</Text>
             <Text style={styles.status}>Available</Text>
             <Text style={styles.price}>{val.Price}</Text>
-          </View>
+          </TouchableOpacity>
         );
       })}
     </ScrollView>
