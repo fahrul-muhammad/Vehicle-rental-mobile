@@ -119,13 +119,25 @@ class Home extends React.Component {
                 showsHorizontalScrollIndicator={false}>
                 {this.state.favorite.map(val => {
                   return (
-                    <Image
-                      key={val.vehicle_id}
-                      style={styles.cardImg}
-                      source={{
-                        uri: `${process.env.LOCAL_HOST}/${val.photo}`,
+                    <TouchableOpacity
+                      onPress={async () => {
+                        try {
+                          const params = {
+                            id: val.vehicle_id,
+                          };
+                          this.props.navigation.navigate('Detail', params);
+                        } catch (error) {
+                          console.log(error);
+                        }
                       }}
-                    />
+                      key={val.vehicle_id}>
+                      <Image
+                        style={styles.cardImg}
+                        source={{
+                          uri: `${process.env.LOCAL_HOST}/${val.photo}`,
+                        }}
+                      />
+                    </TouchableOpacity>
                   );
                 })}
               </ScrollView>
@@ -151,13 +163,25 @@ class Home extends React.Component {
                 showsHorizontalScrollIndicator={false}>
                 {this.state.car.map(val => {
                   return (
-                    <Image
-                      key={val.vehicle_id}
-                      style={styles.cardImg}
-                      source={{
-                        uri: `${process.env.LOCAL_HOST}/${val.photos}`,
-                      }}
-                    />
+                    <TouchableOpacity
+                      onPress={async () => {
+                        try {
+                          const params = {
+                            id: val.id,
+                          };
+                          this.props.navigation.navigate('Detail', params);
+                        } catch (error) {
+                          console.log(error);
+                        }
+                      }}>
+                      <Image
+                        key={val.id}
+                        style={styles.cardImg}
+                        source={{
+                          uri: `${process.env.LOCAL_HOST}/${val.photos}`,
+                        }}
+                      />
+                    </TouchableOpacity>
                   );
                 })}
               </ScrollView>
@@ -183,13 +207,25 @@ class Home extends React.Component {
                 showsHorizontalScrollIndicator={false}>
                 {this.state.motor.map(val => {
                   return (
-                    <Image
-                      key={val.vehicle_id}
-                      style={styles.cardImg}
-                      source={{
-                        uri: `${process.env.LOCAL_HOST}/${val.photos}`,
-                      }}
-                    />
+                    <TouchableOpacity
+                      key={val.id}
+                      onPress={async () => {
+                        try {
+                          const params = {
+                            id: val.id,
+                          };
+                          this.props.navigation.navigate('Detail', params);
+                        } catch (error) {
+                          console.log(error);
+                        }
+                      }}>
+                      <Image
+                        style={styles.cardImg}
+                        source={{
+                          uri: `${process.env.LOCAL_HOST}/${val.photos}`,
+                        }}
+                      />
+                    </TouchableOpacity>
                   );
                 })}
               </ScrollView>
@@ -215,13 +251,26 @@ class Home extends React.Component {
                 showsHorizontalScrollIndicator={false}>
                 {this.state.bike.map(val => {
                   return (
-                    <Image
-                      key={val.vehicle_id}
-                      style={styles.cardImg}
-                      source={{
-                        uri: `${process.env.LOCAL_HOST}/${val.photos}`,
-                      }}
-                    />
+                    <TouchableOpacity
+                      key={val.id}
+                      onPress={async () => {
+                        try {
+                          const params = {
+                            id: val.id,
+                          };
+                          this.props.navigation.navigate('Detail', params);
+                        } catch (error) {
+                          console.log(error);
+                        }
+                      }}>
+                      <Image
+                        key={val.vehicle_id}
+                        style={styles.cardImg}
+                        source={{
+                          uri: `${process.env.LOCAL_HOST}/${val.photos}`,
+                        }}
+                      />
+                    </TouchableOpacity>
                   );
                 })}
               </ScrollView>

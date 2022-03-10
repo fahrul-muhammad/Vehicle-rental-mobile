@@ -111,7 +111,6 @@ const UpdateProfile = ({navigation, params}) => {
   const openLibrary = () => {
     launchImageLibrary({includeBase64: true}, response => {
       if (response.assets[0].uri) {
-        // console.log('BERHASIL', response);
         setImage(response.assets[0]);
         setProfilepic(response.assets[0].uri);
         console.log(profilepic);

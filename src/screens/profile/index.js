@@ -18,17 +18,15 @@ import {useSelector, useDispatch} from 'react-redux';
 import {styles} from './styles';
 import {logout} from '../../redux/action/auth';
 
+// NOTIFICATION TESTING
+import {successNotification} from '../../module/notification';
+
 const Profile = ({navigation}) => {
   const [gender, setGender] = useState('');
   const [isShow, setShow] = useState(false);
   const users = useSelector(state => state.auth.userData);
   console.log('users', users);
 
-  const test = () => {
-    let string = JSON.stringify('akimilakuo');
-    let result = JSON.parse(string);
-    console.log('STRING', result);
-  };
   const dispatch = useDispatch();
 
   const LogOut = () => {
@@ -73,7 +71,11 @@ const Profile = ({navigation}) => {
           }}>
           History
         </Text>
-        <Text style={[styles.text, styles.faq]} onPress={() => test()}>
+        <Text
+          style={[styles.text, styles.faq]}
+          onPress={() => {
+            successNotification();
+          }}>
           FAQ
         </Text>
         <Text style={[styles.text, styles.help]}>Help</Text>
