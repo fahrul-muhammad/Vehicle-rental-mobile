@@ -149,6 +149,11 @@ class Home extends React.Component {
                 try {
                   const param = {
                     category: 'car',
+                    page: 1,
+                    limit: 8,
+                    sorting: 'id',
+                    order: 'ASC',
+                    refresh: false,
                   };
                   this.props.navigation.navigate('Category', param);
                 } catch (error) {
@@ -164,6 +169,7 @@ class Home extends React.Component {
                 {this.state.car.map(val => {
                   return (
                     <TouchableOpacity
+                      key={val.id}
                       onPress={async () => {
                         try {
                           const params = {
@@ -175,7 +181,6 @@ class Home extends React.Component {
                         }
                       }}>
                       <Image
-                        key={val.id}
                         style={styles.cardImg}
                         source={{
                           uri: `${process.env.LOCAL_HOST}/${val.photos}`,
@@ -192,6 +197,11 @@ class Home extends React.Component {
                 try {
                   const param = {
                     category: 'motorbike',
+                    page: 1,
+                    limit: 8,
+                    sorting: 'id',
+                    order: 'ASC',
+                    refresh: false,
                   };
                   this.props.navigation.navigate('Category', param);
                 } catch (error) {
@@ -236,6 +246,11 @@ class Home extends React.Component {
                 try {
                   const param = {
                     category: 'bike',
+                    page: 1,
+                    limit: 8,
+                    sorting: 'id',
+                    order: 'ASC',
+                    refresh: false,
                   };
                   this.props.navigation.navigate('Category', param);
                 } catch (error) {

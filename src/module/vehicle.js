@@ -36,8 +36,8 @@ export const GetFavorite = token => {
   return axios.get(URL, {headers: {token: token}});
 };
 
-export const GetByCategory = category => {
-  const URL = `${process.env.LOCAL_HOST}/vehicle/${category}`;
+export const GetByCategory = (category, page, limit, sorting, order) => {
+  const URL = `${process.env.LOCAL_HOST}/vehicle/${category}?page=${page}&limit=${limit}&sorting=${sorting}&order${order}`;
   console.log('AXIOS URL', URL);
   return axios.get(URL);
 };

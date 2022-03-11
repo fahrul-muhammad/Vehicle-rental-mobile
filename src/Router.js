@@ -21,6 +21,7 @@ import Done from './screens/CheckOut/Done';
 import History from './screens/history/index';
 import AddVehicle from './screens/AddVehicle/index';
 import UpdateProfile from './screens/profile/update';
+import Filter from './screens/VehicleCategory/filter';
 
 import {
   Text,
@@ -58,6 +59,7 @@ const Router = () => {
         <Stack.Screen name="lastStep" component={lastStep} />
         <Stack.Screen name="Done" component={Done} />
         <Stack.Screen name="UpdateProfile" component={UpdateProfile} />
+        <Stack.Screen name="Filter" component={Filter} />
       </Stack.Navigator>
     </NativeBaseProvider>
   );

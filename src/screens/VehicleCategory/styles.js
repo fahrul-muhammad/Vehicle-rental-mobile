@@ -12,6 +12,15 @@ export const styles = StyleSheet.create({
     paddingTop: '5%',
     paddingLeft: '10%',
   },
+  filter: {
+    marginTop: '5%',
+    width: '50%',
+    height: 30,
+    marginLeft: '10%',
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
   card: {
     width: '80%',
     height: 120,
