@@ -8,8 +8,11 @@ import {
   View,
   ScrollView,
 } from 'react-native';
-import React, {useState} from 'react';
-import {useSelector, useDispatch} from 'react-redux';
+import React, {useEffect, useState} from 'react';
+import {useDispatch} from 'react-redux';
+import PushNotification from 'react-native-push-notification';
+import {setFireBaseToken as sendFBToken} from '../../module/users';
+import {useSelector} from 'react-redux';
 
 import AppLoader from '../AppLoader/index';
 
@@ -23,8 +26,23 @@ const Login = ({navigation}) => {
   const [password, setPassword] = useState('');
   const [isPending, setPending] = useState(false);
   const [isError, setError] = useState(false);
+  const [FBToken, setFBToken] = useState('');
 
   const dispatch = useDispatch();
+
+  const userToken = useSelector(state => state.auth.token);
+  const checkToken = () => {
+    if (userToken) {
+      navigation.navigate('Content');
+    } else {
+      return null;
+    }
+  };
+
+  useEffect(() => {
+    getFireBaseToken();
+    checkToken();
+  }, []);
 
   const LoginAction = async () => {
     try {
@@ -37,7 +55,9 @@ const Login = ({navigation}) => {
       const result = await UserLogin(body);
       dispatch(loginAction(result.data.result.token));
       const userData = await GetUserData(result.data.result.token);
+      const token = result.data.result.token;
       dispatch(saveAction(userData.data.result.result[0]));
+      await setFbToken(token);
       setPending(false);
       navigation.navigate('Content');
     } catch (error) {
@@ -45,6 +65,25 @@ const Login = ({navigation}) => {
       setError(true);
       console.log('ERROR AXIOS', error);
     }
+  };
+
+  const setFbToken = async token => {
+    try {
+      const FBtokenSend = {
+        fire_base_token: FBToken,
+      };
+      await sendFBToken(FBtokenSend, token);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const getFireBaseToken = () => {
+    PushNotification.configure({
+      onRegister: function (token) {
+        setFBToken(token.token);
+      },
+    });
   };
 
   return (

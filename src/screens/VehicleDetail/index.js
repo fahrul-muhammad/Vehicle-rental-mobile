@@ -114,8 +114,12 @@ const Detail = ({navigation, route}) => {
       });
   };
 
+  console.log('USERS', users.id);
+  console.log('DATA', data.user_id);
+
   return (
     <>
+      {users.id == data.user_id ? console.log('BENAR') : console.log('SALAH')}
       {Object.keys(data).length < 6 ? (
         <AppLoader />
       ) : (
@@ -372,6 +376,7 @@ const Detail = ({navigation, route}) => {
                     totalPrice: count * data.price,
                     image: data.image,
                     vehicleName: data.name,
+                    owner_id: data.user_id,
                   };
                   navigation.navigate('FirstStep', params);
                 } catch (error) {

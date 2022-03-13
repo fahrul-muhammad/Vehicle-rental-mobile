@@ -52,7 +52,12 @@ const Done = ({navigation, route}) => {
       <TouchableOpacity
         style={styles.btn}
         onPress={() => {
-          navigation.navigate('History');
+          navigation.navigate('Content', {
+            screen: 'Profile',
+            params: {
+              screen: 'History',
+            },
+          });
         }}>
         <Text
           style={{

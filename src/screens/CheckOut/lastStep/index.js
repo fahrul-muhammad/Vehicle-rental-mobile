@@ -15,10 +15,17 @@ import React, {useState, useEffect} from 'react';
 import {useSelector} from 'react-redux';
 import {styles} from './styles';
 import {CheckOut} from '../../../module/checkout';
+import {getUserFireBaseToken} from '../../../module/users';
+import {sendRemoteNotification} from '../../../module/notification';
 
 const LastStep = ({navigation, route}) => {
   const {id} = useSelector(state => state.auth.userData);
   const token = useSelector(state => state.auth.token);
+  const [fbToken, setFbToken] = useState('');
+
+  useEffect(() => {
+    getFBtoken();
+  }, []);
 
   const FinishPayment = async () => {
     try {
@@ -31,15 +38,37 @@ const LastStep = ({navigation, route}) => {
         rating: 8,
       };
       const result = await CheckOut(token, body);
-      console.log(result.data.result.id);
+      console.log('RESULT HISTORY', result.data);
       const params = {
         history_id: result.data.result.id,
         ...route.params,
       };
+      await notifToOwner();
       navigation.navigate('Done', params);
     } catch (error) {
       console.log(error);
     }
+  };
+
+  console.log('PARAMS', route.params);
+
+  const getFBtoken = async () => {
+    try {
+      const result = await getUserFireBaseToken(route.params.owner_id);
+      console.log('RESULT FB TOKEN', result.data.data.token);
+      setFbToken(result.data.data.token);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const notifToOwner = async () => {
+    const body = {
+      receiver: fbToken,
+      title: 'Vehicle Rental',
+      message: 'Someone Ordered Your Vehicle',
+    };
+    await sendRemoteNotification(body);
   };
 
   return (

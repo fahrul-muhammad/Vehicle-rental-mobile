@@ -70,7 +70,7 @@ const HomeTab = () => (
     screenOptions={{
       headerShown: false,
     }}>
-    <Stack.Screen name="Home" component={Home} />
+    <Stack.Screen name="HomePage" component={Home} />
     <Stack.Screen name="AddVehicle" component={AddVehicle} />
   </Stack.Navigator>
 );
@@ -81,7 +81,6 @@ const ProfileTab = () => (
       headerShown: false,
     }}>
     <Stack.Screen name="profile" component={Profile} />
-
     <Stack.Screen name="History" component={History} />
   </Stack.Navigator>
 );
