@@ -134,7 +134,7 @@ class Home extends React.Component {
                       <Image
                         style={styles.cardImg}
                         source={{
-                          uri: `${process.env.LOCAL_HOST}/${val.photo}`,
+                          uri: `http://192.168.1.6:8000/${val.photo}`,
                         }}
                       />
                     </TouchableOpacity>
@@ -153,7 +153,7 @@ class Home extends React.Component {
                     limit: 8,
                     sorting: 'id',
                     order: 'ASC',
-                    refresh: false,
+                    refresh: true,
                   };
                   this.props.navigation.navigate('Category', param);
                 } catch (error) {
@@ -183,7 +183,7 @@ class Home extends React.Component {
                       <Image
                         style={styles.cardImg}
                         source={{
-                          uri: `${process.env.LOCAL_HOST}/${val.photos}`,
+                          uri: `http://192.168.1.6:8000/${val.photos}`,
                         }}
                       />
                     </TouchableOpacity>
@@ -201,7 +201,7 @@ class Home extends React.Component {
                     limit: 8,
                     sorting: 'id',
                     order: 'ASC',
-                    refresh: false,
+                    refresh: true,
                   };
                   this.props.navigation.navigate('Category', param);
                 } catch (error) {
@@ -232,7 +232,7 @@ class Home extends React.Component {
                       <Image
                         style={styles.cardImg}
                         source={{
-                          uri: `${process.env.LOCAL_HOST}/${val.photos}`,
+                          uri: `http://192.168.1.6:8000/${val.photos}`,
                         }}
                       />
                     </TouchableOpacity>
@@ -250,7 +250,7 @@ class Home extends React.Component {
                     limit: 8,
                     sorting: 'id',
                     order: 'ASC',
-                    refresh: false,
+                    refresh: true,
                   };
                   this.props.navigation.navigate('Category', param);
                 } catch (error) {
@@ -282,7 +282,7 @@ class Home extends React.Component {
                         key={val.vehicle_id}
                         style={styles.cardImg}
                         source={{
-                          uri: `${process.env.LOCAL_HOST}/${val.photos}`,
+                          uri: `http://192.168.1.6:8000/${val.photos}`,
                         }}
                       />
                     </TouchableOpacity>

@@ -62,7 +62,7 @@ const History = ({navigation, route}) => {
                 <Image
                   style={styles.img}
                   source={{
-                    uri: `${process.env.LOCAL_HOST}/${val.image}`,
+                    uri: `http://192.168.1.6:8000/${val.image}`,
                   }}
                 />
                 <View style={styles.desc}>

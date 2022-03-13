@@ -102,7 +102,7 @@ const AddVehicle = ({navigation, params}) => {
     setPending(true);
     RNFetchBlob.fetch(
       'POST',
-      `${process.env.LOCAL_HOST}/vehicle`,
+      `http://192.168.1.6:8000/vehicle`,
       {
         'Content-Type': 'multipart/form-data',
         token: token,

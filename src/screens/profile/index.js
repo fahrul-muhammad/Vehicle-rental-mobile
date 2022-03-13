@@ -58,7 +58,7 @@ const Profile = ({navigation}) => {
           <Image
             style={styles.img}
             source={{
-              uri: `${process.env.LOCAL_HOST}${users.profilepic}`,
+              uri: `http://192.168.1.6:8000${users.profilepic}`,
             }}
           />
           <Text style={styles.name}>{users.name}</Text>

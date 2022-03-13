@@ -47,7 +47,7 @@ const UpdateProfile = ({navigation, params}) => {
     setPendding(true);
     RNFetchBlob.fetch(
       'PATCH',
-      `${process.env.LOCAL_HOST}/users`,
+      `http://192.168.1.6:8000/users`,
       {
         'Content-Type': 'multipart/form-data',
         token: token,
@@ -151,7 +151,7 @@ const UpdateProfile = ({navigation, params}) => {
             source={
               profilepic == users.profilepic
                 ? {
-                    uri: `${process.env.LOCAL_HOST}${profilepic}`,
+                    uri: `http://192.168.1.6:8000${profilepic}`,
                   }
                 : {uri: profilepic}
             }

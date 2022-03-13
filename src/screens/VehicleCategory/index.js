@@ -19,34 +19,34 @@ import {update} from 'lodash';
 
 const Category = ({navigation, route}) => {
   const [data, setData] = useState([]);
-  const [order, setOrder] = useState(route.params.order);
-  const [sorting, setSorting] = useState(route.params.sorting);
-  const [page, setPage] = useState(route.params.page);
+  const [params, setParams] = useState({
+    category: null,
+    page: 0,
+    limit: 8,
+    sorting: 'id',
+    order: 'asc',
+  });
   const [loading, setLoading] = useState(false);
+
   const regx = /\w+\s*/g;
 
   useEffect(() => {
-    getVehicle();
+    console.log(route.params);
+    if (route.params.refresh) {
+      setLoading(true);
+      setParams(route.params);
+    }
   }, [route.params]);
 
   useEffect(() => {
-    checkUpdate();
-  }, []);
-
-  const checkUpdate = () => {
-    if (route.params.refresh == true) {
+    if (params.category) {
       getVehicle();
-    } else {
-      return null;
     }
-  };
+  }, [params]);
 
   const getVehicle = async () => {
     try {
-      const {category, limit} = route.params;
-      console.log(route);
-      const result = await GetByCategory(category, page, limit, sorting, order);
-      console.log('META', result.data.result.result.meta);
+      const result = await GetByCategory(params);
       setData(result.data.result.result.data);
       setLoading(false);
     } catch (error) {
@@ -55,27 +55,31 @@ const Category = ({navigation, route}) => {
   };
 
   const nextPage = () => {
+    const data = {...params};
     setLoading(true);
-    setPage(page + 1);
-    route.params.page = page;
-    getVehicle();
+    data.page = data.page + 1;
+    setParams(data);
   };
 
   const prevPage = () => {
-    if (page > 1) {
+    if (params.page > 1) {
       setLoading(true);
-      setPage(page - 1);
-      getVehicle();
+      const data = {...params};
+      data.page = data.page - 1;
+      setParams(data);
     } else {
       return;
     }
   };
 
-  console.log('PARAMS', route);
   return (
     <>
-      {data.length < 5 || loading == true ? (
+      {data.length < 0 || loading == true ? (
         <AppLoader />
+      ) : data.length <= 0 && loading == false ? (
+        <View>
+          <Text>Data not found</Text>
+        </View>
       ) : (
         <ScrollView
           showsVerticalScrollIndicator={false}
@@ -140,7 +144,7 @@ const Category = ({navigation, route}) => {
                 }}>
                 <Image
                   source={{
-                    uri: `${process.env.LOCAL_HOST}/${val.photos}`,
+                    uri: `http://192.168.1.6:8000/${val.photos}`,
                   }}
                   style={styles.cardImg}
                 />
@@ -170,7 +174,7 @@ const Category = ({navigation, route}) => {
             <TouchableOpacity
               onPress={() => prevPage()}
               style={
-                page <= 1
+                params.page <= 1
                   ? {
                       backgroundColor: '#C4C4C4',
                       height: '100%',
@@ -197,7 +201,7 @@ const Category = ({navigation, route}) => {
                 fontWeight: '700',
                 fontSize: 20,
               }}>
-              {page}
+              {params.page}
             </Text>
             <TouchableOpacity
               onPress={() => nextPage()}

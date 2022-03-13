@@ -69,7 +69,7 @@ const Search = ({navigation, params}) => {
               resizeMode="cover"
               style={styles.imgCard}
               source={{
-                uri: `${process.env.LOCAL_HOST}/${val.Image}`,
+                uri: `http://192.168.1.6:8000/${val.Image}`,
               }}
             />
             <Text style={styles.location}>{val.location}</Text>
