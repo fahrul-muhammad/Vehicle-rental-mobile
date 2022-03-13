@@ -9,15 +9,24 @@ import {PersistGate} from 'redux-persist/integration/react';
 import {store, persistor} from './src/redux/Store';
 import {Provider} from 'react-redux';
 import PushNotification from 'react-native-push-notification';
+import {sendLocalNotification} from './src/module/notification';
 
 PushNotification.configure({
+  onRegister: function (token) {
+    console.log('TOKEN:', token);
+  },
+  onRegistrationError: function (err) {
+    console.error('ERROR:', err.message, err);
+  },
   onNotification: notification => {
     console.log('NOTIFICATION:', notification);
-    // process the notification
-    // (required) Called when a remote is received or opened, or local notification is opened
+    sendLocalNotification({
+      title: notification.title,
+      message: notification.message,
+    });
   },
   popInitialNotification: true,
-  requestPermissions: false,
+  requestPermissions: true,
 });
 
 PushNotification.createChannel(

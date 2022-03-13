@@ -1,10 +1,10 @@
 import PushNotification from 'react-native-push-notification';
 
-export const successNotification = () => {
+export const sendLocalNotification = ({title, message, date}) => {
   PushNotification.localNotification({
     channelId: '123',
-    title: 'Payment Success',
-    message: 'Payment Success,thanks for delivery',
-    bigPictureUrl: '../assets/icons/home.png',
+    title,
+    message,
+    actions: ['Dismiss', 'Yes'],
   });
 };
