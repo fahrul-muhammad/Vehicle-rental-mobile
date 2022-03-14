@@ -60,6 +60,7 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 10,
+    bottom: '2%',
   },
   radioBtn: {
     width: 24,
@@ -80,5 +81,16 @@ export const styles = StyleSheet.create({
     width: '70%',
     height: '70%',
     borderRadius: 50,
+  },
+  date: {
+    width: '90%',
+    height: '10%',
+    marginLeft: '5%',
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: '#C4C4C4',
+    display: 'flex',
+    justifyContent: 'center',
+    paddingLeft: '5%',
   },
 });

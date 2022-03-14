@@ -22,10 +22,22 @@ const LastStep = ({navigation, route}) => {
   const {id} = useSelector(state => state.auth.userData);
   const token = useSelector(state => state.auth.token);
   const [fbToken, setFbToken] = useState('');
+  const [code, setCode] = useState('');
+  const [numCode, setNumCode] = useState('');
 
   useEffect(() => {
     getFBtoken();
+    generatePaymentCode();
   }, []);
+
+  const generatePaymentCode = () => {
+    let Code = `${(Math.random() + 1).toString(36).substring(7)}`;
+    setCode(Code.toUpperCase());
+
+    let numberCode = `${Math.floor(Math.random() * 10000000000) * 1}
+    `;
+    setNumCode(numberCode);
+  };
 
   const FinishPayment = async () => {
     try {
@@ -178,7 +190,7 @@ const LastStep = ({navigation, route}) => {
             fontWeight: '500',
             fontSize: 20,
           }}>
-          Booking Code : <Text style={{color: 'green'}}>ASJ124</Text>{' '}
+          Booking Code : <Text style={{color: 'green'}}>{code}</Text>{' '}
         </Text>
         <Text
           style={{

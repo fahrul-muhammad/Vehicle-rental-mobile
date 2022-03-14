@@ -1,49 +1,49 @@
 import axios from 'axios';
 
 export const GetAllCar = () => {
-  const URL = `http://192.168.1.6:8000/vehicle/car`;
+  const URL = `${process.env.LOCAL_HOST}/vehicle/car`;
   console.log('AXIOS URL', URL);
   return axios.get(URL);
 };
 
 export const GetAllMotor = () => {
-  const URL = `http://192.168.1.6:8000/vehicle/motorbike`;
+  const URL = `${process.env.LOCAL_HOST}/vehicle/motorbike`;
   console.log('AXIOS URL', URL);
   return axios.get(URL);
 };
 
 export const GetAllBike = () => {
-  const URL = `http://192.168.1.6:8000/vehicle/bike`;
+  const URL = `${process.env.LOCAL_HOST}/vehicle/bike`;
   console.log('AXIOS URL', URL);
   return axios.get(URL);
 };
 
 export const getVehicleById = id => {
-  const URL = `http://192.168.1.6:8000/vehicle/detail/${id}`;
+  const URL = `${process.env.LOCAL_HOST}/vehicle/detail/${id}`;
   console.log('AXIOS URL', URL);
   return axios.get(URL);
 };
 
 export const SearchVehicle = (name, token) => {
-  const URL = `http://192.168.1.6:8000/vehicle/search?name=${name}`;
+  const URL = `${process.env.LOCAL_HOST}/vehicle/search?name=${name}`;
   console.log('AXIOS URL', URL);
   return axios.get(URL, {headers: {token: token}});
 };
 
 export const GetFavorite = token => {
-  const URL = `http://192.168.1.6:8000/history/popular`;
+  const URL = `${process.env.LOCAL_HOST}/history/popular`;
   console.log('AXIOS URL', URL);
   return axios.get(URL, {headers: {token: token}});
 };
 
 export const GetByCategory = ({category, page, limit, sorting, order}) => {
-  const URL = `http://192.168.1.6:8000/vehicle/${category}?page=${page}&limit=${limit}&sorting=${sorting}&order=${order}`;
+  const URL = `${process.env.LOCAL_HOST}/vehicle/${category}?page=${page}&limit=${limit}&sorting=${sorting}&order=${order}`;
   console.log('AXIOS URL', URL);
   return axios.get(URL);
 };
 
 export const AddNewVehicle = body => {
-  const URL = `http://192.168.1.6:8000/vehicle`;
+  const URL = `${process.env.LOCAL_HOST}/vehicle`;
   console.log('BODY AXIOS', body);
   return axios({
     method: 'POST',
@@ -57,7 +57,7 @@ export const AddNewVehicle = body => {
 };
 
 export const updateVehicle = (id, body, token) => {
-  const URL = `http://192.168.1.6:8000/vehicle/update/${id}`;
+  const URL = `${process.env.LOCAL_HOST}/vehicle/update/${id}`;
   console.log('BODY AXIOS', body);
   return axios.patch(URL, body, {headers: {token: token}});
 };

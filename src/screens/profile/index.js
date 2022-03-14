@@ -25,6 +25,7 @@ const Profile = ({navigation}) => {
   const [gender, setGender] = useState('');
   const [isShow, setShow] = useState(false);
   const users = useSelector(state => state.auth.userData);
+  const [image, setImage] = useState();
   console.log('users', users);
 
   const dispatch = useDispatch();
@@ -57,8 +58,15 @@ const Profile = ({navigation}) => {
           }}>
           <Image
             style={styles.img}
-            source={{
-              uri: `http://192.168.1.6:8000${users.profilepic}`,
+            source={
+              users.profilepic
+                ? {
+                    uri: `${process.env.LOCAL_HOST}${users.profilepic}`,
+                  }
+                : image
+            }
+            onError={() => {
+              setImage(require('../../assets/icons/dummy-profile-pic.png'));
             }}
           />
           <Text style={styles.name}>{users.name}</Text>
@@ -71,13 +79,7 @@ const Profile = ({navigation}) => {
           }}>
           History
         </Text>
-        <Text
-          style={[styles.text, styles.faq]}
-          onPress={() => {
-            successNotification();
-          }}>
-          FAQ
-        </Text>
+        <Text style={[styles.text, styles.faq]}>FAQ</Text>
         <Text style={[styles.text, styles.help]}>Help</Text>
         <Text
           style={[styles.text, styles.update]}

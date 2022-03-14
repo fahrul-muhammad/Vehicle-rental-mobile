@@ -40,8 +40,8 @@ const Login = ({navigation}) => {
   };
 
   useEffect(() => {
-    getFireBaseToken();
     checkToken();
+    getFireBaseToken();
   }, []);
 
   const LoginAction = async () => {
@@ -74,7 +74,7 @@ const Login = ({navigation}) => {
       };
       await sendFBToken(FBtokenSend, token);
     } catch (error) {
-      console.log(error);
+      console.log('SET TOKEN ERROR', error);
     }
   };
 

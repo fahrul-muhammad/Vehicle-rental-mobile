@@ -134,7 +134,7 @@ class Home extends React.Component {
                       <Image
                         style={styles.cardImg}
                         source={{
-                          uri: `http://192.168.1.6:8000/${val.photo}`,
+                          uri: `${process.env.LOCAL_HOST}/${val.photo}`,
                         }}
                       />
                     </TouchableOpacity>
@@ -183,7 +183,7 @@ class Home extends React.Component {
                       <Image
                         style={styles.cardImg}
                         source={{
-                          uri: `http://192.168.1.6:8000/${val.photos}`,
+                          uri: `${process.env.LOCAL_HOST}/${val.photos}`,
                         }}
                       />
                     </TouchableOpacity>
@@ -232,7 +232,7 @@ class Home extends React.Component {
                       <Image
                         style={styles.cardImg}
                         source={{
-                          uri: `http://192.168.1.6:8000/${val.photos}`,
+                          uri: `${process.env.LOCAL_HOST}/${val.photos}`,
                         }}
                       />
                     </TouchableOpacity>
@@ -282,7 +282,7 @@ class Home extends React.Component {
                         key={val.vehicle_id}
                         style={styles.cardImg}
                         source={{
-                          uri: `http://192.168.1.6:8000/${val.photos}`,
+                          uri: `${process.env.LOCAL_HOST}/${val.photos}`,
                         }}
                       />
                     </TouchableOpacity>

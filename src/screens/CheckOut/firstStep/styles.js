@@ -28,7 +28,7 @@ export const styles = StyleSheet.create({
   btn: {
     backgroundColor: '#FFCD61',
     width: '90%',
-    marginTop: '11%',
+    marginTop: '36%',
     height: '35%',
     display: 'flex',
     justifyContent: 'center',
