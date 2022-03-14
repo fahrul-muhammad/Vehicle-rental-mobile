@@ -17,14 +17,42 @@ import {useDispatch} from 'react-redux';
 
 import {loginAction, saveAction} from '../../redux/action/auth';
 
+import PushNotification from 'react-native-push-notification';
+import {setFireBaseToken as sendFBToken} from '../../module/users';
+import {useEffect} from 'react';
+
 const Signup = ({navigation}) => {
   const [email, setEmail] = useState('');
   const [name, setName] = useState('');
   const [password, setPassword] = useState('');
   const [isError, setError] = useState(false);
   const [isPending, setPending] = useState(false);
+  const [FBToken, setFBToken] = useState('');
 
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    getFireBaseToken();
+  }, []);
+
+  const setFbToken = async token => {
+    try {
+      const FBtokenSend = {
+        fire_base_token: FBToken,
+      };
+      await sendFBToken(FBtokenSend, token);
+    } catch (error) {
+      console.log('SET TOKEN ERROR', error);
+    }
+  };
+
+  const getFireBaseToken = () => {
+    PushNotification.configure({
+      onRegister: function (token) {
+        setFBToken(token.token);
+      },
+    });
+  };
 
   const userSignUp = async () => {
     try {
@@ -44,6 +72,8 @@ const Signup = ({navigation}) => {
       };
       const autoLogin = await Login(bodyLogin);
       dispatch(loginAction(autoLogin.data.result.token));
+      const token = autoLogin.data.result.token;
+      await setFbToken(token);
       const userData = await GetUserData(autoLogin.data.result.token);
       dispatch(saveAction(userData.data.result.result[0]));
       setPending(false);

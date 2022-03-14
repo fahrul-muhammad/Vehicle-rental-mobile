@@ -11,7 +11,6 @@ export const styles = StyleSheet.create({
     fontSize: 23,
     fontWeight: '700',
     paddingLeft: '5%',
-    paddingTop: '5%',
   },
   photo: {
     width: 105,
@@ -63,7 +62,7 @@ export const styles = StyleSheet.create({
     marginLeft: '5%',
     marginTop: '5%',
     backgroundColor: '#FFCD61',
-    height: '10%',
+    height: '8%',
     borderRadius: 10,
     display: 'flex',
     alignItems: 'center',

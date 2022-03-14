@@ -102,7 +102,7 @@ const AddVehicle = ({navigation, params}) => {
     setPending(true);
     RNFetchBlob.fetch(
       'POST',
-      `${process.env.LOCAL_HOST}/vehicle`,
+      `http://192.168.1.6:8000/vehicle`,
       {
         'Content-Type': 'multipart/form-data',
         token: token,
@@ -166,16 +166,47 @@ const AddVehicle = ({navigation, params}) => {
           flexGrow: 1,
         }}
         style={styles.container}>
-        <Text style={styles.head}>Add new item</Text>
-        <Text
+        <View
           style={{
-            position: 'absolute',
-            top: '3%',
-            fontSize: 23,
-            right: '5.5%',
+            display: 'flex',
+            flexDirection: 'row',
+            justifyContent: 'center',
+            alignItems: 'center',
+            width: '100%',
+            height: 30,
+            marginTop: '5%',
           }}>
-          Cancel
-        </Text>
+          <View
+            style={{
+              width: '50%',
+              height: '100%',
+            }}>
+            <Text
+              style={{
+                fontSize: 23,
+                paddingLeft: '10%',
+                color: '#000',
+                fontWeight: '700',
+              }}>
+              Add new item
+            </Text>
+          </View>
+          <View
+            style={{
+              display: 'flex',
+              width: '50%',
+              height: '100%',
+            }}>
+            <Text
+              style={{
+                fontSize: 23,
+                textAlign: 'right',
+                paddingRight: '10%',
+              }}>
+              Cancel
+            </Text>
+          </View>
+        </View>
         <View
           style={{
             width: '100%',
@@ -195,22 +226,19 @@ const AddVehicle = ({navigation, params}) => {
                   ? {
                       uri: image,
                     }
-                  : require('../../assets/icons/walk.png')
+                  : require('../../assets/icons/default-vehicle.jpg')
               }
+              resizeMode="cover"
             />
           </View>
-          <View style={styles.add}>
+          <TouchableOpacity style={styles.add} onPress={() => openLibrary()}>
             <Text
               style={{
                 fontSize: 30,
-                // fontWeight: '800',
-                // textAlign: 'center',
-                // paddingTop: '5%',
-              }}
-              onPress={() => openLibrary()}>
+              }}>
               +
             </Text>
-          </View>
+          </TouchableOpacity>
         </View>
         <KeyboardAvoidingView>
           <View
@@ -229,7 +257,7 @@ const AddVehicle = ({navigation, params}) => {
             style={{
               width: '90%',
               marginLeft: '5%',
-              marginTop: '3%',
+              marginTop: '1.8%',
             }}>
             <Text style={styles.label}>Price</Text>
             <TextInput
@@ -242,7 +270,7 @@ const AddVehicle = ({navigation, params}) => {
             style={{
               width: '90%',
               marginLeft: '5%',
-              marginTop: '3%',
+              marginTop: '1.8%',
             }}>
             <Text style={styles.label}>Description</Text>
             <TextInput
@@ -255,7 +283,7 @@ const AddVehicle = ({navigation, params}) => {
             style={{
               width: '90%',
               marginLeft: '5%',
-              marginTop: '3%',
+              marginTop: '1.8%',
             }}>
             <Text style={styles.label}>Location</Text>
             <TextInput
@@ -268,7 +296,7 @@ const AddVehicle = ({navigation, params}) => {
             style={{
               width: '90%',
               marginLeft: '5%',
-              marginTop: '3%',
+              marginTop: '1.8%',
             }}>
             <Text style={styles.label}>Add To</Text>
             <Picker
@@ -291,7 +319,7 @@ const AddVehicle = ({navigation, params}) => {
             style={{
               width: '90%',
               marginLeft: '5%',
-              marginTop: '3%',
+              marginTop: '1.8%',
               position: 'relative',
               display: 'flex',
               justifyContent: 'center',
@@ -315,7 +343,7 @@ const AddVehicle = ({navigation, params}) => {
             <Text
               style={{
                 position: 'absolute',
-                right: '13%',
+                right: '11.8%',
                 fontSize: 15,
                 fontWeight: '700',
                 color: 'black',

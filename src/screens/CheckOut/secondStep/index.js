@@ -54,7 +54,7 @@ const SecondStep = ({navigation, route}) => {
       </View>
       <Image
         source={{
-          uri: `${process.env.LOCAL_HOST}/${route.params.image}`,
+          uri: `http://192.168.1.6:8000/${route.params.image}`,
         }}
         style={{
           width: '80%',

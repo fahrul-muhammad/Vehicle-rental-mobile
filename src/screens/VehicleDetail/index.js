@@ -18,6 +18,7 @@ import {useSelector} from 'react-redux';
 import AppLoader from '../AppLoader';
 import {updateVehicle} from '../../module/vehicle';
 import RNFetchBlob from 'rn-fetch-blob';
+import DateTimePicker from '@react-native-community/datetimepicker';
 
 const Detail = ({navigation, route}) => {
   const [data, setData] = useState([]);
@@ -78,7 +79,7 @@ const Detail = ({navigation, route}) => {
     setPending(true);
     RNFetchBlob.fetch(
       'PATCH',
-      `${process.env.LOCAL_HOST}/vehicle/update/${data.id}`,
+      `http://192.168.1.6:8000/vehicle/update/${data.id}`,
       {
         'Content-Type': 'multipart/form-data',
         token: token,
@@ -117,6 +118,32 @@ const Detail = ({navigation, route}) => {
   console.log('USERS', users.id);
   console.log('DATA', data.user_id);
 
+  // DATE TIME PICKER
+  const [date, setDate] = useState(new Date());
+  const [mode, setMode] = useState('mode');
+  const [show, setShow] = useState(false);
+  const [text, setText] = useState('Select Date');
+
+  const showMode = currentMode => {
+    setShow(true);
+    setMode(currentMode);
+  };
+
+  const onChangeDate = (event, selectedDate) => {
+    const currentDate = selectedDate || date;
+    setShow(Platform.OS === 'ios');
+
+    let tempDate = new Date(currentDate);
+    let fDate =
+      tempDate.getDate() +
+      '/' +
+      (tempDate.getMonth() + 1) +
+      '/' +
+      tempDate.getFullYear();
+    setText(fDate);
+    console.log('RESULT: ', fDate);
+  };
+
   return (
     <>
       {users.id == data.user_id ? console.log('BENAR') : console.log('SALAH')}
@@ -126,7 +153,7 @@ const Detail = ({navigation, route}) => {
         <View style={styles.container}>
           <Image
             source={{
-              uri: `${process.env.LOCAL_HOST}/${data.image}`,
+              uri: `http://192.168.1.6:8000/${data.image}`,
             }}
             style={styles.image}
           />
@@ -340,17 +367,31 @@ const Detail = ({navigation, route}) => {
                       textAlign: 'center',
                       paddingTop: '9%',
                     }}>
-                    Select Date
+                    {text}
                   </Text>
                 </View>
-                <Picker
+                <TouchableOpacity
                   style={styles.dayInput}
-                  selectedValue={day}
-                  onValueChange={val => setDay(val)}>
-                  <Picker.Item label="1 Day" value={'1 Day'} />
-                  <Picker.Item label="2 Day" value={'2 Day'} />
-                  <Picker.Item label="3 Day" value={'3 Day'} />
-                </Picker>
+                  onPress={() => showMode('date')}>
+                  <Text
+                    style={{
+                      color: 'black',
+                      textAlign: 'center',
+                      paddingTop: '14%',
+                    }}>
+                    Tap To Open
+                  </Text>
+                </TouchableOpacity>
+                {show ? (
+                  <DateTimePicker
+                    value={date}
+                    testID="dateTimePicker"
+                    mode={mode}
+                    is24Hour={true}
+                    display="default"
+                    onChange={onChangeDate}
+                  />
+                ) : null}
               </>
             ) : (
               <>

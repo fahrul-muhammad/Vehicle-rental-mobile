@@ -48,4 +48,30 @@ export const styles = StyleSheet.create({
     color: 'black',
     paddingHorizontal: '3%',
   },
+  modal: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0,0,0,0.6)',
+  },
+  content: {
+    backgroundColor: '#fff',
+    height: 180,
+    width: 325,
+    borderRadius: 12,
+  },
+  modalTxt: {
+    color: '#000',
+    textAlign: 'center',
+    paddingTop: '5%',
+    fontSize: 25,
+  },
+  modalBtn: {
+    width: '40%',
+    height: '80%',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 12,
+  },
 });

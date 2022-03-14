@@ -9,6 +9,7 @@ import {
   ScrollView,
   FlatList,
   Touchable,
+  Modal,
 } from 'react-native';
 import React, {useState, useEffect} from 'react';
 import Checkbox from '@react-native-community/checkbox';
@@ -22,6 +23,7 @@ const History = ({navigation, route}) => {
   const token = useSelector(state => state.auth.token);
   const [data, setData] = useState([]);
   const [select, setSelect] = useState(false);
+  const [show, setShow] = useState(false);
 
   useEffect(() => {
     GetHistory();
@@ -35,6 +37,10 @@ const History = ({navigation, route}) => {
     } catch (error) {
       console.log(error);
     }
+  };
+
+  const showModal = () => {
+    setShow(!show);
   };
 
   return (
@@ -58,11 +64,14 @@ const History = ({navigation, route}) => {
           </View>
           {data.map(val => {
             return (
-              <View style={styles.card} key={val.id}>
+              <TouchableOpacity
+                onLongPress={() => showModal()}
+                style={styles.card}
+                key={val.id}>
                 <Image
                   style={styles.img}
                   source={{
-                    uri: `${process.env.LOCAL_HOST}/${val.image}`,
+                    uri: `http://192.168.1.6:8000/${val.image}`,
                   }}
                 />
                 <View style={styles.desc}>
@@ -110,9 +119,62 @@ const History = ({navigation, route}) => {
                   onCheckColor="black"
                   animationDuration={0.5}
                 />
-              </View>
+              </TouchableOpacity>
             );
           })}
+          <Modal
+            transparent
+            visible={show}
+            onRequestClose={() => setShow(!show)}>
+            <View style={styles.modal}>
+              <View style={styles.content}>
+                <Text style={styles.modalTxt}>
+                  Are you sure to delet this history ?
+                </Text>
+                <View
+                  style={{
+                    display: 'flex',
+                    flexDirection: 'row',
+                    position: 'absolute',
+                    bottom: '0%',
+                    width: '100%',
+                    height: '40%',
+                    justifyContent: 'space-around',
+                    alignItems: 'center',
+                  }}>
+                  <TouchableOpacity
+                    style={{
+                      ...styles.modalBtn,
+                      backgroundColor: '#393939',
+                    }}>
+                    <Text
+                      style={{
+                        fontSize: 18,
+                        fontWeight: '700',
+                        color: '#FFCD61',
+                      }}>
+                      Yes
+                    </Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    style={{
+                      ...styles.modalBtn,
+                      backgroundColor: '#FFCD61',
+                    }}
+                    onPress={() => showModal()}>
+                    <Text
+                      style={{
+                        fontSize: 18,
+                        fontWeight: '700',
+                        color: '#393939',
+                      }}>
+                      No
+                    </Text>
+                  </TouchableOpacity>
+                </View>
+              </View>
+            </View>
+          </Modal>
         </ScrollView>
       )}
     </>

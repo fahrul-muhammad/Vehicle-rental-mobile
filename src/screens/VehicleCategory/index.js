@@ -144,7 +144,7 @@ const Category = ({navigation, route}) => {
                 }}>
                 <Image
                   source={{
-                    uri: `${process.env.LOCAL_HOST}/${val.photos}`,
+                    uri: `http://192.168.1.6:8000/${val.photos}`,
                   }}
                   style={styles.cardImg}
                 />
