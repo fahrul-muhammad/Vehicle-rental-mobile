@@ -26,7 +26,7 @@ const Done = ({navigation, route}) => {
       <Image
         style={styles.img}
         source={{
-          uri: `http://192.168.1.6:8000/${route.params.image}`,
+          uri: `${process.env.LOCAL_HOST}/${route.params.image}`,
         }}
       />
       <Text style={styles.name}>

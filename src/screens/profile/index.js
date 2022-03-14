@@ -61,7 +61,7 @@ const Profile = ({navigation}) => {
             source={
               users.profilepic
                 ? {
-                    uri: `http://192.168.1.6:8000${users.profilepic}`,
+                    uri: `${process.env.LOCAL_HOST}${users.profilepic}`,
                   }
                 : image
             }

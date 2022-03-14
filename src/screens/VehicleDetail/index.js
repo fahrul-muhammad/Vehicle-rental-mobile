@@ -79,7 +79,7 @@ const Detail = ({navigation, route}) => {
     setPending(true);
     RNFetchBlob.fetch(
       'PATCH',
-      `http://192.168.1.6:8000/vehicle/update/${data.id}`,
+      `${process.env.LOCAL_HOST}/vehicle/update/${data.id}`,
       {
         'Content-Type': 'multipart/form-data',
         token: token,
@@ -153,7 +153,7 @@ const Detail = ({navigation, route}) => {
         <View style={styles.container}>
           <Image
             source={{
-              uri: `http://192.168.1.6:8000/${data.image}`,
+              uri: `${process.env.LOCAL_HOST}/${data.image}`,
             }}
             style={styles.image}
           />
