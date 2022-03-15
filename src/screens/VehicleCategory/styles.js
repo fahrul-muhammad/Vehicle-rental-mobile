@@ -3,12 +3,12 @@ import {StyleSheet} from 'react-native';
 export const styles = StyleSheet.create({
   container: {
     minHeight: '100%',
-    backgroundColor: 'white',
+    backgroundcolor: '#fff',
   },
   head: {
     fontSize: 30,
     fontWeight: '700',
-    color: 'black',
+    color: '#000',
     paddingTop: '5%',
     paddingLeft: '10%',
   },
@@ -40,7 +40,7 @@ export const styles = StyleSheet.create({
     position: 'absolute',
     left: '43%',
     fontSize: 20,
-    color: 'black',
+    color: '#000',
   },
   capacity: {
     fontWeight: '600',
@@ -69,6 +69,6 @@ export const styles = StyleSheet.create({
     left: '43%',
     top: '69%',
     fontSize: 15,
-    color: 'black',
+    color: '#000',
   },
 });

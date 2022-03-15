@@ -35,7 +35,7 @@ const FirstStep = ({navigation, route}) => {
             paddingTop: '5%',
             fontWeight: '700',
             fontSize: 25,
-            color: 'black',
+            color: '#000',
           }}>
           Payment
         </Text>
@@ -167,7 +167,7 @@ const FirstStep = ({navigation, route}) => {
             <Text
               style={{
                 fontWeight: '700',
-                color: 'black',
+                color: '#000',
                 fontSize: 17,
               }}>
               See Order Detail

@@ -20,6 +20,7 @@ import {Login as UserLogin, GetUserData} from '../../module/auth';
 import {loginAction, saveAction} from '../../redux/action/auth';
 
 import {styles} from './styles';
+import {set} from 'lodash';
 
 const Login = ({navigation}) => {
   const [email, setEmail] = useState('');
@@ -31,8 +32,9 @@ const Login = ({navigation}) => {
   const dispatch = useDispatch();
 
   const userToken = useSelector(state => state.auth.token);
-  const checkToken = () => {
+  const checkToken = async () => {
     if (userToken) {
+      await setFbToken(userToken);
       navigation.navigate('Content');
     } else {
       return null;
@@ -40,8 +42,8 @@ const Login = ({navigation}) => {
   };
 
   useEffect(() => {
-    checkToken();
     getFireBaseToken();
+    checkToken();
   }, []);
 
   const LoginAction = async () => {
@@ -81,6 +83,7 @@ const Login = ({navigation}) => {
   const getFireBaseToken = () => {
     PushNotification.configure({
       onRegister: function (token) {
+        console.log('FIRE BASE', token.token);
         setFBToken(token.token);
       },
     });

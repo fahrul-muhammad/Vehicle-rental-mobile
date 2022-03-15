@@ -54,7 +54,7 @@ const History = ({navigation, route}) => {
           }}
           style={{
             width: '100%',
-            backgroundColor: 'white',
+            backgroundcolor: '#fff',
             minHeight: '100%',
           }}>
           <Text style={styles.title}>History Order</Text>
@@ -79,7 +79,7 @@ const History = ({navigation, route}) => {
                     style={{
                       paddingTop: '5%',
                       fontSize: 15,
-                      color: 'black',
+                      color: '#000',
                       fontWeight: '700',
                     }}>
                     {val.vehicle}
@@ -88,7 +88,7 @@ const History = ({navigation, route}) => {
                     style={{
                       paddingTop: '5%',
                       fontSize: 15,
-                      color: 'black',
+                      color: '#000',
                     }}>
                     {val.date}
                   </Text>
@@ -96,7 +96,7 @@ const History = ({navigation, route}) => {
                     style={{
                       paddingTop: '5%',
                       fontSize: 15,
-                      color: 'black',
+                      color: '#000',
                     }}>
                     Prepayment: Rp. {val.prepayment}
                   </Text>

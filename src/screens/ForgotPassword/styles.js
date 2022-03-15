@@ -36,7 +36,7 @@ export const styles = StyleSheet.create({
     backgroundColor: '#fff',
     borderRadius: 6,
     opacity: 0.8,
-    color: 'black',
+    color: '#000',
   },
   btn: {
     position: 'absolute',

@@ -4,7 +4,7 @@ export const styles = StyleSheet.create({
   container: {
     minHeight: '100%',
     width: '100%',
-    backgroundColor: 'white',
+    backgroundcolor: '#fff',
     position: 'relative',
     flexGrow: 1,
   },
@@ -13,7 +13,7 @@ export const styles = StyleSheet.create({
     paddingTop: '5%',
     fontSize: 25,
     fontWeight: '700',
-    color: 'black',
+    color: '#000',
   },
   subTitle: {
     display: 'flex',
@@ -45,7 +45,7 @@ export const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'column',
     width: '54%',
-    color: 'black',
+    color: '#000',
     paddingHorizontal: '3%',
   },
   modal: {

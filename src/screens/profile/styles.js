@@ -16,7 +16,7 @@ export const styles = StyleSheet.create({
     left: '35%',
     fontWeight: '700',
     fontSize: 20,
-    color: 'black',
+    color: '#000',
   },
   fav: {
     position: 'absolute',
@@ -62,7 +62,7 @@ export const styles = StyleSheet.create({
   btnText: {
     fontWeight: '700',
     fontSize: 20,
-    color: 'black',
+    color: '#000',
   },
   modal: {
     flex: 1,

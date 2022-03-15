@@ -19,6 +19,7 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     width: '90%',
     marginLeft: '5%',
+    color: '#000',
   },
   drop: {
     backgroundColor: '#efefef',

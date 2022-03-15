@@ -15,7 +15,7 @@ const index = () => {
       />
       <Text
         style={{
-          color: 'white',
+          color: '#fff',
           fontSize: 15,
           fontWeight: '700',
         }}>

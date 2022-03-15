@@ -75,12 +75,17 @@ const LastStep = ({navigation, route}) => {
   };
 
   const notifToOwner = async () => {
-    const body = {
-      receiver: fbToken,
-      title: 'Vehicle Rental',
-      message: 'Someone Ordered Your Vehicle',
-    };
-    await sendRemoteNotification(body);
+    try {
+      const body = {
+        receiver: fbToken,
+        title: 'Vehicle Rental',
+        message: 'Someone Ordered Your Vehicle',
+      };
+      const result = await sendRemoteNotification(body);
+      console.log(result.data);
+    } catch (error) {
+      console.log('ERROR NOTIF', error);
+    }
   };
 
   return (
@@ -109,7 +114,7 @@ const LastStep = ({navigation, route}) => {
           style={{
             textAlign: 'center',
             fontWeight: '700',
-            color: 'black',
+            color: '#000',
             fontSize: 20,
           }}>
           Payment Code
@@ -118,7 +123,7 @@ const LastStep = ({navigation, route}) => {
           style={{
             textAlign: 'center',
             fontWeight: '700',
-            color: 'black',
+            color: '#000',
             fontSize: 25,
             paddingTop: '2%',
           }}>
@@ -162,7 +167,7 @@ const LastStep = ({navigation, route}) => {
             textAlign: 'center',
             fontWeight: '700',
             fontSize: 25,
-            color: 'black',
+            color: '#000',
             paddingTop: '2%',
           }}>
           0290-90203-345-2

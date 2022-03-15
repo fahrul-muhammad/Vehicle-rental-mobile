@@ -5,7 +5,7 @@ const index = () => {
   return (
     <View
       style={{
-        backgroundColor: 'black',
+        backgroundcolor: '#000',
       }}>
       <Text>index</Text>
     </View>

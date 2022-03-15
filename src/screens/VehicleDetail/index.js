@@ -182,7 +182,7 @@ const Detail = ({navigation, route}) => {
               style={{
                 paddingLeft: '30%',
                 top: '5%',
-                color: 'white',
+                color: '#fff',
                 fontWeight: '700',
               }}>
               8
@@ -190,7 +190,7 @@ const Detail = ({navigation, route}) => {
             <Image
               source={require('../../assets/icons/star.png')}
               style={{
-                tintColor: 'white',
+                tintcolor: '#fff',
                 position: 'absolute',
                 right: '20%',
                 top: '15%',
@@ -295,7 +295,7 @@ const Detail = ({navigation, route}) => {
                 top: '5%',
                 fontWeight: '700',
                 fontSize: 20,
-                color: 'black',
+                color: '#000',
               }}>
               {data.user_id !== users.id
                 ? `Select ${data.category}`
@@ -315,7 +315,7 @@ const Detail = ({navigation, route}) => {
                 style={{
                   fontWeight: '800',
                   fontSize: 20,
-                  color: 'black',
+                  color: '#000',
                   textAlign: 'center',
                 }}>
                 -
@@ -323,7 +323,7 @@ const Detail = ({navigation, route}) => {
             </TouchableOpacity>
             <Text
               style={{
-                color: 'black',
+                color: '#000',
                 position: 'absolute',
                 right: '17.5%',
                 fontWeight: '700',
@@ -344,7 +344,7 @@ const Detail = ({navigation, route}) => {
                 style={{
                   fontWeight: '800',
                   fontSize: 20,
-                  color: 'black',
+                  color: '#000',
                   textAlign: 'center',
                 }}>
                 +
@@ -363,7 +363,7 @@ const Detail = ({navigation, route}) => {
                 <View style={styles.inputDate}>
                   <Text
                     style={{
-                      color: 'black',
+                      color: '#000',
                       textAlign: 'center',
                       paddingTop: '9%',
                     }}>
@@ -375,7 +375,7 @@ const Detail = ({navigation, route}) => {
                   onPress={() => showMode('date')}>
                   <Text
                     style={{
-                      color: 'black',
+                      color: '#000',
                       textAlign: 'center',
                       paddingTop: '14%',
                     }}>

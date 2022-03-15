@@ -2,12 +2,13 @@ import {StyleSheet} from 'react-native';
 
 export const styles = StyleSheet.create({
   container: {
-    backgroundColor: 'white',
+    backgroundcolor: 'white',
     display: 'flex',
+    flex: 1,
     position: 'relative',
   },
   head: {
-    color: 'black',
+    color: '#000',
     fontSize: 23,
     fontWeight: '700',
     paddingLeft: '5%',
@@ -35,7 +36,7 @@ export const styles = StyleSheet.create({
   },
   label: {
     fontSize: 18,
-    color: 'black',
+    color: '#000',
     fontWeight: '700',
   },
   input: {
@@ -45,7 +46,7 @@ export const styles = StyleSheet.create({
     borderBottomStartRadius: 10,
   },
   drop: {
-    borderColor: '#C4C4C4',
+    borderColor: '#FFF',
     width: '100%',
   },
   countBtn: {

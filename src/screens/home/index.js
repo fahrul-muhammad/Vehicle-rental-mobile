@@ -105,7 +105,7 @@ class Home extends React.Component {
                   style={{
                     fontSize: 18,
                     fontWeight: '700',
-                    color: 'black',
+                    color: '#000',
                   }}>
                   Add New Vehicle
                 </Text>

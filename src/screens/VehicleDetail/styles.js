@@ -5,7 +5,7 @@ export const styles = StyleSheet.create({
     width: '100%',
     height: '100%',
     position: 'relative',
-    backgroundColor: 'white',
+    backgroundcolor: 'white',
   },
   image: {
     width: '100%',
@@ -13,7 +13,7 @@ export const styles = StyleSheet.create({
     position: 'relative',
   },
   back: {
-    color: 'black',
+    color: '#000',
     position: 'absolute',
     top: '3%',
     left: '5%',
@@ -22,19 +22,19 @@ export const styles = StyleSheet.create({
   love: {
     // left: '90%',
     // top: '200%',
-    tintColor: 'black',
+    tintcolor: '#000',
   },
   name: {
     fontSize: 30,
     fontWeight: '700',
-    color: 'black',
+    color: '#000',
     left: '5%',
     paddingTop: '2%',
   },
   price: {
     fontSize: 30,
     fontWeight: '700',
-    color: 'black',
+    color: '#000',
     left: '5%',
   },
   capacity: {
@@ -59,14 +59,14 @@ export const styles = StyleSheet.create({
     paddingLeft: '5%',
   },
   inputDate: {
-    backgroundColor: '#efefef',
+    backgroundColor: '#C4C4C4',
     width: '50%',
     opacity: 1,
     height: 55,
-    color: 'white',
+    color: '#fff',
   },
   dayInput: {
-    backgroundColor: '#efefef',
+    backgroundColor: '#C4C4C4',
     width: '35%',
     height: 55,
     borderRadius: 10,

@@ -51,7 +51,7 @@ export const styles = StyleSheet.create({
     right: '5%',
     fontWeight: '600',
     fontSize: 18,
-    color: 'black',
+    color: '#000',
   },
   carLink: {
     position: 'absolute',
@@ -59,7 +59,7 @@ export const styles = StyleSheet.create({
     right: '5%',
     fontWeight: '600',
     fontSize: 18,
-    color: 'black',
+    color: '#000',
   },
   motorLink: {
     position: 'absolute',
@@ -67,7 +67,7 @@ export const styles = StyleSheet.create({
     right: '5%',
     fontWeight: '600',
     fontSize: 18,
-    color: 'black',
+    color: '#000',
   },
   bikeLink: {
     position: 'absolute',
@@ -75,6 +75,6 @@ export const styles = StyleSheet.create({
     right: '5%',
     fontWeight: '600',
     fontSize: 18,
-    color: 'black',
+    color: '#000',
   },
 });

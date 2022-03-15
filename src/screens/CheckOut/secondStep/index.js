@@ -45,7 +45,7 @@ const SecondStep = ({navigation, route}) => {
             position: 'absolute',
             right: '15.3%',
             top: '29%',
-            color: 'white',
+            color: '#fff',
             fontWeight: '600',
             fontSize: 20,
           }}>
@@ -69,7 +69,7 @@ const SecondStep = ({navigation, route}) => {
           paddingTop: '4%',
           fontSize: 19,
           fontWeight: '600',
-          color: 'black',
+          color: '#000',
         }}>
         {route.params.quantity} {route.params.vehicleName}
       </Text>
@@ -79,7 +79,7 @@ const SecondStep = ({navigation, route}) => {
           paddingTop: '2%',
           fontSize: 19,
           fontWeight: '600',
-          color: 'black',
+          color: '#000',
         }}>
         {route.params.payment}
       </Text>
@@ -89,7 +89,7 @@ const SecondStep = ({navigation, route}) => {
           paddingTop: '2%',
           fontSize: 19,
           fontWeight: '600',
-          color: 'black',
+          color: '#000',
         }}>
         Jan 18 To Jan 22 2022
       </Text>
@@ -99,7 +99,7 @@ const SecondStep = ({navigation, route}) => {
           paddingTop: '35%',
           fontSize: 25,
           fontWeight: '700',
-          color: 'black',
+          color: '#000',
         }}>
         Sub Total : Rp.{route.params.totalPrice}
       </Text>
@@ -126,7 +126,7 @@ const SecondStep = ({navigation, route}) => {
         <Text
           style={{
             fontWeight: '700',
-            color: 'black',
+            color: '#000',
             fontSize: 20,
           }}>
           Get Payment Code

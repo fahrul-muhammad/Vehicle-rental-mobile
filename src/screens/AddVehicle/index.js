@@ -47,7 +47,7 @@ const AddVehicle = ({navigation, params}) => {
 
   const openLibrary = () => {
     launchImageLibrary({includeBase64: true}, response => {
-      if (response.assets[0].uri) {
+      if (!response.didCancel) {
         // console.log('BERHASIL', response);
         setPhoto(response.assets[0]);
         setImage(response.assets[0].uri);
@@ -346,7 +346,7 @@ const AddVehicle = ({navigation, params}) => {
                 right: '11.8%',
                 fontSize: 15,
                 fontWeight: '700',
-                color: 'black',
+                color: '#000',
               }}>
               {stock}
             </Text>
@@ -372,7 +372,7 @@ const AddVehicle = ({navigation, params}) => {
             style={{
               fontSize: 20,
               fontWeight: '600',
-              color: 'black',
+              color: '#000',
             }}>
             Save Product
           </Text>

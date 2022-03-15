@@ -63,7 +63,7 @@ const Done = ({navigation, route}) => {
           style={{
             fontSize: 19,
             fontWeight: '700',
-            color: 'black',
+            color: '#000',
           }}>
           Total : {route.params.totalPrice}
         </Text>

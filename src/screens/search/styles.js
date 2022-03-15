@@ -2,7 +2,7 @@ import {StyleSheet} from 'react-native';
 
 export const styles = StyleSheet.create({
   container: {
-    backgroundColor: 'white',
+    backgroundcolor: '#fff',
   },
   input: {
     width: '90%',
@@ -31,7 +31,7 @@ export const styles = StyleSheet.create({
   nameCard: {
     fontSize: 20,
     fontWeight: '700',
-    color: 'black',
+    color: '#000',
     paddingTop: '3%',
     paddingLeft: '5%',
   },
@@ -54,7 +54,7 @@ export const styles = StyleSheet.create({
     bottom: '5%',
     fontSize: 20,
     fontWeight: '700',
-    color: 'black',
+    color: '#000',
   },
   elevation: {
     elevation: 5,

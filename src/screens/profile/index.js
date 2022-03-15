@@ -49,7 +49,7 @@ const Profile = ({navigation}) => {
         style={styles.container}>
         <View
           style={{
-            backgroundColor: 'white',
+            backgroundcolor: '#fff',
             width: '100%',
             height: 100,
             position: 'relative',

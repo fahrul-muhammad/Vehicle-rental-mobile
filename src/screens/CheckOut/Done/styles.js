@@ -10,7 +10,7 @@ export const styles = StyleSheet.create({
     paddingTop: '5%',
     paddingLeft: '5%',
     fontWeight: '700',
-    color: 'black',
+    color: '#000',
   },
   notif: {
     color: 'green',

@@ -10,7 +10,7 @@ export const styles = StyleSheet.create({
     paddingTop: '5%',
     paddingLeft: '16%',
     fontWeight: '700',
-    color: 'black',
+    color: '#000',
   },
   btn: {
     backgroundColor: '#FFCD61',
