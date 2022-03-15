@@ -129,6 +129,7 @@ const UpdateProfile = ({navigation, params}) => {
             console.log('USER RESULT', result.data.result.result[0]);
             dispatch(saveAction(result.data.result.result[0]));
             showToast();
+            setPendding(false);
           })
           .catch(error);
       })
@@ -147,7 +148,7 @@ const UpdateProfile = ({navigation, params}) => {
 
   const openLibrary = () => {
     launchImageLibrary({includeBase64: true}, response => {
-      if (response.assets[0].uri) {
+      if (!response.didCancel) {
         setImage(response.assets[0]);
         setProfilepic(response.assets[0].uri);
         console.log(profilepic);
@@ -157,10 +158,11 @@ const UpdateProfile = ({navigation, params}) => {
 
   const openCamera = () => {
     launchCamera({includeBase64: true}, response => {
-      console.log('RESPONSE', response);
-      setImage(response.assets[0]);
-      setProfilepic(response.assets[0].uri);
-      console.log(profilepic);
+      if (!response.didCancel) {
+        setImage(response.assets[0]);
+        setProfilepic(response.assets[0].uri);
+        console.log(profilepic);
+      }
     });
   };
 
@@ -202,11 +204,11 @@ const UpdateProfile = ({navigation, params}) => {
                 : {uri: profilepic}
             }
             style={styles.img}
-            onError={() => {
-              setProfilepic(
-                require('../../../assets/icons/dummy-profile-pic.png'),
-              );
-            }}
+            // onError={() => {
+            //   setProfilepic(
+            //     require('../../../assets/icons/dummy-profile-pic.png'),
+            //   );
+            // }}
           />
           <View
             style={{
