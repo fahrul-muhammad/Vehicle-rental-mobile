@@ -50,6 +50,7 @@ export const styles = StyleSheet.create({
     marginTop: '1%',
     borderRadius: 10,
     borderWidth: 1,
+    paddingLeft: 15,
   },
   btn: {
     backgroundColor: '#FFCD61',

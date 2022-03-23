@@ -13,14 +13,21 @@ import {
 import {Picker} from '@react-native-picker/picker';
 import React, {useState, useEffect} from 'react';
 import {styles} from './styles';
+import {useSelector} from 'react-redux';
 
 const FirstStep = ({navigation, route}) => {
+  const users = useSelector(state => state.auth.userData);
+  const fullName = users.name.split(' ');
+  const FirstName = fullName[0];
+  const LastName = fullName[1];
+
   const [payment, setPayment] = useState('Prepayment (No Tax)');
   const [id, setId] = useState(0);
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
-  const [phone, setPhone] = useState(0);
-  const [location, setLocation] = useState('');
+  const [firstName, setFirstName] = useState(FirstName);
+  const [lastName, setLastName] = useState(LastName);
+  const [phone, setPhone] = useState(users.phone_number);
+  const [location, setLocation] = useState(users.address);
+  console.log('users data', users);
 
   console.log('PARAMS HERE', route.params);
   return (
@@ -67,10 +74,11 @@ const FirstStep = ({navigation, route}) => {
             <TextInput
               style={{
                 backgroundColor: '#efefef',
-                width: '100%',
-                marginTop: '30%',
+                width: '120%',
+                paddingLeft: 15,
+                marginTop: '25%',
                 borderRadius: 10,
-                height: '20%',
+                height: '25%',
               }}
               placeholder="ID Card Number"
               onChangeText={text => setId(text)}
@@ -78,46 +86,54 @@ const FirstStep = ({navigation, route}) => {
             <TextInput
               style={{
                 backgroundColor: '#efefef',
-                width: '100%',
+                width: '120%',
+                paddingLeft: 15,
                 marginTop: '7%',
                 borderRadius: 10,
-                height: '20%',
+                height: '23%',
               }}
               placeholder="First Name"
               onChangeText={text => setFirstName(text)}
+              defaultValue={FirstName}
             />
             <TextInput
               style={{
                 backgroundColor: '#efefef',
-                width: '100%',
+                width: '120%',
+                paddingLeft: 15,
                 marginTop: '7%',
                 borderRadius: 10,
-                height: '20%',
+                height: '23%',
               }}
               placeholder="Last Name"
               onChangeText={text => setLastName(text)}
+              defaultValue={LastName}
             />
             <TextInput
               style={{
                 backgroundColor: '#efefef',
-                width: '100%',
-                height: '20%',
+                width: '120%',
+                paddingLeft: 15,
+                height: '23%',
                 marginTop: '7%',
                 borderRadius: 10,
               }}
               placeholder="Mobile Phone (Mustbe Active)"
               onChangeText={text => setPhone(text)}
+              defaultValue={users.phone_number ? users.phone_number : '-'}
             />
             <TextInput
               style={{
                 backgroundColor: '#efefef',
-                width: '100%',
+                width: '120%',
+                paddingLeft: 15,
                 marginTop: '7%',
                 borderRadius: 10,
-                height: '20%',
+                height: '23%',
               }}
               placeholder="Location (Home,Office,Etc)"
               onChangeText={text => setLocation(text)}
+              defaultValue={users.address ? users.address : '-'}
             />
           </KeyboardAvoidingView>
         </View>

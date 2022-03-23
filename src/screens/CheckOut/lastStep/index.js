@@ -43,9 +43,9 @@ const LastStep = ({navigation, route}) => {
     try {
       const body = {
         vehicle_id: route.params.id,
-        date: route.params.day,
+        date: route.params.date,
         prepayment: route.params.totalPrice,
-        status_id: 1,
+        status_id: 2,
         user_id: id,
         rating: 8,
       };
@@ -61,8 +61,6 @@ const LastStep = ({navigation, route}) => {
       console.log(error);
     }
   };
-
-  console.log('PARAMS', route.params);
 
   const getFBtoken = async () => {
     try {

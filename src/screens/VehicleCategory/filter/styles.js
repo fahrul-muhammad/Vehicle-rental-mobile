@@ -25,10 +25,11 @@ export const styles = StyleSheet.create({
     color: '#393939',
   },
   dropDown: {
-    width: '30%',
+    width: '100%',
     height: '100%',
     borderRadius: 12,
     backgroundColor: '#C4C4C4',
+    marginTop: '4%',
   },
   btn: {
     backgroundColor: '#FFCD61',

@@ -17,9 +17,29 @@ import {styles} from './styles';
 const SecondStep = ({navigation, route}) => {
   console.log('SECOND STEP PARAMS', route.params);
 
-  const formater = num => {
-    return 'Rp' + num.toFixed(2).replace(/(\d) (?=(\d{3})+(?!\d))/g, 'Rp1,');
+  const [error, setError] = useState(false);
+  const [loaded, setLoaded] = useState(false);
+
+  const onImageLoaded = () => {
+    setLoaded(true);
   };
+
+  const onImageError = () => {
+    setError(true);
+  };
+
+  const formatRupiah = money => {
+    return new Intl.NumberFormat('id-ID', {
+      style: 'currency',
+      currency: 'IDR',
+      minimumFractionDigits: 0,
+    }).format(money);
+  };
+
+  let imgSrc = !error
+    ? {uri: `${process.env.LOCAL_HOST}/${route.params.image}`}
+    : require('../../../assets/icons/default-vehicle.jpg');
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Payment</Text>
@@ -53,14 +73,18 @@ const SecondStep = ({navigation, route}) => {
         </Text>
       </View>
       <Image
-        source={{
-          uri: `${process.env.LOCAL_HOST}/${route.params.image}`,
-        }}
+        source={imgSrc}
         style={{
           width: '80%',
           height: '25%',
           marginLeft: '10%',
           borderRadius: 10,
+        }}
+        onLoad={() => {
+          onImageLoaded();
+        }}
+        onError={() => {
+          onImageError();
         }}
       />
       <Text
@@ -91,7 +115,7 @@ const SecondStep = ({navigation, route}) => {
           fontWeight: '600',
           color: '#000',
         }}>
-        Jan 18 To Jan 22 2022
+        {route.params.date} To {route.params.toDate}
       </Text>
       <Text
         style={{
@@ -101,7 +125,7 @@ const SecondStep = ({navigation, route}) => {
           fontWeight: '700',
           color: '#000',
         }}>
-        Sub Total : Rp.{route.params.totalPrice}
+        Sub Total : {formatRupiah(route.params.totalPrice)}
       </Text>
       <Image
         source={require('../../../assets/icons/Pricing.png')}

@@ -19,6 +19,13 @@ const Done = ({navigation, route}) => {
 
   const user = useSelector(state => state.auth.userData);
   console.log('REDUX', user);
+  const formatRupiah = money => {
+    return new Intl.NumberFormat('id-ID', {
+      style: 'currency',
+      currency: 'IDR',
+      minimumFractionDigits: 0,
+    }).format(money);
+  };
   return (
     <View style={styles.container}>
       <Text style={styles.title}>See History</Text>
@@ -33,8 +40,10 @@ const Done = ({navigation, route}) => {
         {route.params.quantity} {route.params.vehicleName}
       </Text>
       <Text style={styles.name}>{route.params.payment}</Text>
-      <Text style={styles.name}>{route.params.day}</Text>
-      <Text style={styles.name}>Jan 18 2022 to Jan 22 2022</Text>
+      <Text style={styles.name}>{route.params.day} Day</Text>
+      <Text style={styles.name}>
+        {route.params.date} to {route.params.toDate}
+      </Text>
       <View
         style={{
           width: '90%',
@@ -65,7 +74,7 @@ const Done = ({navigation, route}) => {
             fontWeight: '700',
             color: '#000',
           }}>
-          Total : {route.params.totalPrice}
+          Total : {formatRupiah(route.params.totalPrice)}
         </Text>
       </TouchableOpacity>
     </View>

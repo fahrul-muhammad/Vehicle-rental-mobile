@@ -49,6 +49,9 @@ const UpdateProfile = ({navigation, params}) => {
   const [show, setShow] = useState(false);
   const [text, setText] = useState(users.DoB);
 
+  const [error, setError] = useState(false);
+  const [loaded, setLoaded] = useState(false);
+
   const showMode = currentMode => {
     setShow(true);
     setMode(currentMode);
@@ -131,7 +134,7 @@ const UpdateProfile = ({navigation, params}) => {
             showToast();
             setPendding(false);
           })
-          .catch(error);
+          .catch(err);
       })
       .catch(err => {
         console.log(err);
@@ -178,6 +181,21 @@ const UpdateProfile = ({navigation, params}) => {
     setMale(false);
   };
 
+  const onImageLoaded = () => {
+    setLoaded(true);
+  };
+
+  const onImageError = () => {
+    setError(true);
+  };
+
+  let imgSrc =
+    users.profilepic === null
+      ? require('../../../assets/icons/dummy-profile-pic.png')
+      : !error
+      ? {uri: `${process.env.LOCAL_HOST}/${users.profilepic}`}
+      : require('../../../assets/icons/dummy-profile-pic.png');
+
   return (
     <>
       <ScrollView
@@ -196,19 +214,14 @@ const UpdateProfile = ({navigation, params}) => {
             alignItems: 'center',
           }}>
           <Image
-            source={
-              profilepic == users.profilepic
-                ? {
-                    uri: `${process.env.LOCAL_HOST}${profilepic}`,
-                  }
-                : {uri: profilepic}
-            }
+            source={imgSrc}
             style={styles.img}
-            // onError={() => {
-            //   setProfilepic(
-            //     require('../../../assets/icons/dummy-profile-pic.png'),
-            //   );
-            // }}
+            onLoad={() => {
+              onImageLoaded();
+            }}
+            onError={() => {
+              onImageError();
+            }}
           />
           <View
             style={{

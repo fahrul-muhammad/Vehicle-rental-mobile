@@ -26,6 +26,8 @@ const Profile = ({navigation}) => {
   const [isShow, setShow] = useState(false);
   const users = useSelector(state => state.auth.userData);
   const [image, setImage] = useState();
+  const [error, setError] = useState(false);
+  const [loaded, setLoaded] = useState(false);
   console.log('users', users);
 
   const dispatch = useDispatch();
@@ -39,6 +41,21 @@ const Profile = ({navigation}) => {
   const showModal = () => {
     setShow(!isShow);
   };
+
+  const onImageLoaded = () => {
+    setLoaded(true);
+  };
+
+  const onImageError = () => {
+    setError(true);
+  };
+
+  let imgSrc =
+    users.profilepic === null
+      ? require('../../assets/icons/dummy-profile-pic.png')
+      : !error
+      ? {uri: `${process.env.LOCAL_HOST}/${users.profilepic}`}
+      : require('../../assets/icons/dummy-profile-pic.png');
 
   return (
     <>
@@ -58,34 +75,60 @@ const Profile = ({navigation}) => {
           }}>
           <Image
             style={styles.img}
-            source={
-              users.profilepic
-                ? {
-                    uri: `${process.env.LOCAL_HOST}${users.profilepic}`,
-                  }
-                : image
-            }
+            source={imgSrc}
+            onLoad={() => {
+              onImageLoaded();
+            }}
             onError={() => {
-              setImage(require('../../assets/icons/dummy-profile-pic.png'));
+              onImageError();
             }}
           />
           <Text style={styles.name}>{users.name}</Text>
         </View>
-        <Text style={[styles.fav, styles.text]}>Your favorite </Text>
-        <Text
-          style={[styles.text, styles.history]}
+        <TouchableOpacity
+          style={{
+            width: '90%',
+            height: '8%',
+            marginLeft: '5%',
+          }}>
+          <Text style={[styles.fav, styles.text]}>Your favorite </Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={{
+            width: '90%',
+            height: '8%',
+            marginLeft: '5%',
+          }}
           onPress={() => {
             navigation.navigate('History');
           }}>
-          History
-        </Text>
-        <Text style={[styles.text, styles.faq]}>FAQ</Text>
-        <Text style={[styles.text, styles.help]}>Help</Text>
-        <Text
-          style={[styles.text, styles.update]}
+          <Text style={[styles.text, styles.history]}>History</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={{
+            width: '90%',
+            height: '8%',
+            marginLeft: '5%',
+          }}>
+          <Text style={[styles.text, styles.faq]}>FAQ</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={{
+            width: '90%',
+            height: '8%',
+            marginLeft: '5%',
+          }}>
+          <Text style={[styles.text, styles.help]}>Help</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={{
+            width: '90%',
+            height: '8%',
+            marginLeft: '5%',
+          }}
           onPress={() => navigation.navigate('UpdateProfile')}>
-          Update Profile
-        </Text>
+          <Text style={[styles.text, styles.update]}>Update Profile</Text>
+        </TouchableOpacity>
         <TouchableOpacity onPress={() => showModal()} style={styles.btn}>
           <Text style={styles.btnText}>Log Out</Text>
         </TouchableOpacity>

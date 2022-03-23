@@ -1,26 +1,6 @@
 import {StyleSheet} from 'react-native';
 
 export const styles = StyleSheet.create({
-  container: {
-    minHeight: '100%',
-    backgroundcolor: '#fff',
-  },
-  head: {
-    fontSize: 30,
-    fontWeight: '700',
-    color: '#000',
-    paddingTop: '5%',
-    paddingLeft: '5%',
-  },
-  filter: {
-    marginTop: '5%',
-    width: '50%',
-    height: 30,
-    marginLeft: '5%',
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
   card: {
     width: '90%',
     height: 120,

@@ -21,7 +21,7 @@ export const styles = StyleSheet.create({
   fav: {
     position: 'absolute',
     top: '18%',
-    left: '8%',
+    // left: '8%',
   },
   text: {
     fontSize: 23,
@@ -30,22 +30,22 @@ export const styles = StyleSheet.create({
   history: {
     position: 'absolute',
     top: '25%',
-    left: '8%',
+    // left: '8%',
   },
   faq: {
     position: 'absolute',
     top: '33%',
-    left: '8%',
+    // left: '8%',
   },
   help: {
     position: 'absolute',
     top: '41%',
-    left: '8%',
+    // left: '8%',
   },
   update: {
     position: 'absolute',
     top: '49%',
-    left: '8%',
+    // left: '8%',
   },
   btn: {
     position: 'absolute',

@@ -47,9 +47,9 @@ const Filter = ({route, navigation}) => {
           height: 40,
           marginTop: '20%',
           display: 'flex',
-          flexDirection: 'row',
-          alignItems: 'center',
-          justifyContent: 'space-between',
+          flexDirection: 'column',
+          alignItems: 'flex-start',
+          justifyContent: 'flex-start',
         }}>
         <Text style={styles.label}>Select Filter</Text>
         <Picker
@@ -66,11 +66,11 @@ const Filter = ({route, navigation}) => {
           width: '90%',
           marginLeft: '5%',
           height: 40,
-          marginTop: '8%',
+          marginTop: '20%',
           display: 'flex',
-          flexDirection: 'row',
-          alignItems: 'center',
-          justifyContent: 'space-between',
+          flexDirection: 'column',
+          alignItems: 'flex-start',
+          justifyContent: 'flex-start',
         }}>
         <Text style={styles.label}>Select Order Data</Text>
         <Picker

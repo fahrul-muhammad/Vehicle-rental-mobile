@@ -1,20 +1,6 @@
 import {StyleSheet} from 'react-native';
 
 export const styles = StyleSheet.create({
-  container: {
-    backgroundcolor: '#fff',
-  },
-  input: {
-    width: '90%',
-    marginLeft: '5%',
-    marginTop: '5%',
-    backgroundColor: '#C4C4C4',
-    borderRadius: 10,
-    paddingLeft: 20,
-    color: '#000',
-    height: 60,
-    fontSize: 18,
-  },
   card: {
     width: '90%',
     height: 300,
@@ -59,20 +45,7 @@ export const styles = StyleSheet.create({
     color: '#000',
   },
   elevation: {
-    elevation: 5,
+    elevation: 4,
     shadowColor: '#171717',
-  },
-  drop: {
-    width: '90%',
-    marginLeft: '5%',
-    marginTop: '5%',
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-  dropdown: {
-    backgroundColor: '#C4C4C4',
-    width: '40%',
   },
 });

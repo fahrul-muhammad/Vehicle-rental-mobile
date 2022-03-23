@@ -24,8 +24,8 @@ export const getVehicleById = id => {
   return axios.get(URL);
 };
 
-export const SearchVehicle = (name, token) => {
-  const URL = `${process.env.LOCAL_HOST}/vehicle/search?name=${name}`;
+export const SearchVehicle = (name, page, order, sorting, token) => {
+  const URL = `${process.env.LOCAL_HOST}/vehicle/search?keyword=${name}&page=${page}&limit=5&order=${order}&sorting=${sorting}`;
   console.log('AXIOS URL', URL);
   return axios.get(URL, {headers: {token: token}});
 };
@@ -59,5 +59,10 @@ export const AddNewVehicle = body => {
 export const updateVehicle = (id, body, token) => {
   const URL = `${process.env.LOCAL_HOST}/vehicle/update/${id}`;
   console.log('BODY AXIOS', body);
+  return axios.patch(URL, body, {headers: {token: token}});
+};
+
+export const DeletVehicle = (id, body, token) => {
+  const URL = `${process.env.LOCAL_HOST}/vehicle/${id}`;
   return axios.patch(URL, body, {headers: {token: token}});
 };

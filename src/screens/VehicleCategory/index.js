@@ -16,6 +16,7 @@ import {styles} from './styles';
 import {GetByCategory} from '../../module/vehicle';
 import AppLoader from '../AppLoader';
 import {update} from 'lodash';
+import Card from '../../components/cardVehicle/index.js';
 
 const Category = ({navigation, route}) => {
   const [data, setData] = useState([]);
@@ -129,9 +130,36 @@ const Category = ({navigation, route}) => {
           </View>
           {data.map(val => {
             return (
+              // <TouchableOpacity
+              //   key={val.id}
+              //   style={styles.card}
+              //   onPress={async () => {
+              //     try {
+              //       const params = {
+              //         id: val.id,
+              //       };
+              //       navigation.navigate('Detail', params);
+              //     } catch (error) {
+              //       console.log(error);
+              //     }
+              //   }}>
+              //   <Image
+              //     source={{
+              //       uri: `${process.env.LOCAL_HOST}/${val.photos}`,
+              //     }}
+              //     style={styles.cardImg}
+              //   />
+              //   <Text style={styles.name}>
+              //     {String(val.Vehicle_Name).match(regx)}
+              //   </Text>
+              //   <Text style={styles.capacity}>Max For 2 Person</Text>
+              //   <Text style={styles.distance}>
+              //     2.1 Kilometer From Your Location
+              //   </Text>
+              //   <Text style={styles.avail}>Available</Text>
+              //   <Text style={styles.price}>{val.Price}/Day</Text>
+              // </TouchableOpacity>
               <TouchableOpacity
-                key={val.id}
-                style={styles.card}
                 onPress={async () => {
                   try {
                     const params = {
@@ -141,22 +169,14 @@ const Category = ({navigation, route}) => {
                   } catch (error) {
                     console.log(error);
                   }
-                }}>
-                <Image
-                  source={{
-                    uri: `${process.env.LOCAL_HOST}/${val.photos}`,
-                  }}
-                  style={styles.cardImg}
+                }}
+                key={val.id}>
+                <Card
+                  photos={val.photos}
+                  name={val.Vehicle_Name}
+                  Price={val.Price}
+                  id={val.id}
                 />
-                <Text style={styles.name}>
-                  {String(val.Vehicle_Name).match(regx)}
-                </Text>
-                <Text style={styles.capacity}>Max For 2 Person</Text>
-                <Text style={styles.distance}>
-                  2.1 Kilometer From Your Location
-                </Text>
-                <Text style={styles.avail}>Available</Text>
-                <Text style={styles.price}>{val.Price}/Day</Text>
               </TouchableOpacity>
             );
           })}

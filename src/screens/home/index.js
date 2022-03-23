@@ -22,6 +22,8 @@ import {
 } from '../../module/vehicle';
 import {GetImage} from '../../module/image';
 import {NavigationContainer} from '@react-navigation/native';
+import Default from '../../assets/icons/default-vehicle.jpg';
+import CardImg from '../../components/imgCard/index';
 
 class Home extends React.Component {
   constructor(props) {
@@ -32,6 +34,8 @@ class Home extends React.Component {
       bike: [],
       favorite: [],
       isPending: false,
+      loaded: false,
+      error: false,
     };
   }
 
@@ -83,7 +87,22 @@ class Home extends React.Component {
     }
   };
 
+  onImageLoaded = () => {
+    this.setState({loaded: true});
+  };
+
+  onImageError = () => {
+    this.setState({error: true});
+  };
+
   render() {
+    let favImg = !this.state.error
+      ? {uri: `${process.env.LOCAL_HOST}/${this.state.favorite.photo}`}
+      : require('../../assets/icons/default-vehicle.jpg');
+
+    let carImg = !this.state.error
+      ? {uri: `${process.env.LOCAL_HOST}/${this.state.car.photos}`}
+      : require('../../assets/icons/default-vehicle.jpg');
     return (
       <>
         {this.state.car.length < 5 &&
@@ -111,7 +130,7 @@ class Home extends React.Component {
                 </Text>
               </TouchableOpacity>
             ) : null}
-            <Text style={styles.first}>Favorite</Text>
+            <Text style={styles.first}>Popular</Text>
             {/* <Text style={styles.firstLink}>See All</Text> */}
             <View style={styles.recomendContainer}>
               <ScrollView
@@ -131,12 +150,13 @@ class Home extends React.Component {
                         }
                       }}
                       key={val.vehicle_id}>
-                      <Image
+                      {/* <Image
                         style={styles.cardImg}
                         source={{
                           uri: `${process.env.LOCAL_HOST}/${val.photo}`,
                         }}
-                      />
+                      /> */}
+                      <CardImg photos={val.photo} />
                     </TouchableOpacity>
                   );
                 })}
@@ -180,12 +200,17 @@ class Home extends React.Component {
                           console.log(error);
                         }
                       }}>
-                      <Image
+                      {/* <Image
                         style={styles.cardImg}
-                        source={{
-                          uri: `${process.env.LOCAL_HOST}/${val.photos}`,
+                        source={carImg}
+                        onLoad={() => {
+                          this.onImageLoaded();
                         }}
-                      />
+                        onError={() => {
+                          this.onImageError();
+                        }}
+                      /> */}
+                      <CardImg photos={val.photos} />
                     </TouchableOpacity>
                   );
                 })}
@@ -229,12 +254,13 @@ class Home extends React.Component {
                           console.log(error);
                         }
                       }}>
-                      <Image
+                      {/* <Image
                         style={styles.cardImg}
                         source={{
                           uri: `${process.env.LOCAL_HOST}/${val.photos}`,
                         }}
-                      />
+                      /> */}
+                      <CardImg photos={val.photos} />
                     </TouchableOpacity>
                   );
                 })}
@@ -278,13 +304,14 @@ class Home extends React.Component {
                           console.log(error);
                         }
                       }}>
-                      <Image
+                      {/* <Image
                         key={val.vehicle_id}
                         style={styles.cardImg}
                         source={{
                           uri: `${process.env.LOCAL_HOST}/${val.photos}`,
                         }}
-                      />
+                      /> */}
+                      <CardImg photos={val.photos} />
                     </TouchableOpacity>
                   );
                 })}

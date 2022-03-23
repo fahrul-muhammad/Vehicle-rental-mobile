@@ -19,3 +19,13 @@ export const SignUp = body => {
   console.log('AXIOS URL', URL);
   return axios.post(URL, body);
 };
+
+export const SendOtp = body => {
+  const URL = `${process.env.LOCAL_HOST}/auth/forgotpassword`;
+  return axios.post(URL, body);
+};
+
+export const setNewPassword = body => {
+  const URL = `${process.env.LOCAL_HOST}/auth/setnewpassword`;
+  return axios.patch(URL, body);
+};

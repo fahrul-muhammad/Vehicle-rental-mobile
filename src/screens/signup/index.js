@@ -28,6 +28,7 @@ const Signup = ({navigation}) => {
   const [isError, setError] = useState(false);
   const [isPending, setPending] = useState(false);
   const [FBToken, setFBToken] = useState('');
+  const [msg, setMsg] = useState('');
 
   const dispatch = useDispatch();
 
@@ -57,13 +58,20 @@ const Signup = ({navigation}) => {
   const userSignUp = async () => {
     try {
       setError(false);
+      setPending(true);
+      if (password.length < 8) {
+        setPending(false);
+        setError(true);
+        setMsg('Password must be 8 character');
+        return;
+      }
       const body = {
         name: name,
         email: email,
         password: password,
       };
       console.log('BODY BODY', body);
-      setPending(true);
+      // setPending(true);
       const result = await SignUp(body);
       console.log('result sign up', result);
       const bodyLogin = {
@@ -79,6 +87,7 @@ const Signup = ({navigation}) => {
       setPending(false);
       navigation.navigate('Content');
     } catch (error) {
+      setMsg('Something error, try again');
       setPending(false);
       setError(true);
       console.log(error);
@@ -123,9 +132,7 @@ const Signup = ({navigation}) => {
                 placeholderTextColor={'black'}
                 onChangeText={text => setPassword(text)}
               />
-              {isError ? (
-                <Text style={styles.error}>Something wrong,Try Again</Text>
-              ) : null}
+              {isError ? <Text style={styles.error}>{msg}</Text> : null}
             </View>
             <TouchableOpacity
               onPress={() => userSignUp()}

@@ -18,6 +18,7 @@ import {useSelector} from 'react-redux';
 import {GetUserHistory} from '../../module/history';
 
 import AppLoader from '../AppLoader/index';
+import HistoryCard from '../../components/historyCard';
 
 const History = ({navigation, route}) => {
   const token = useSelector(state => state.auth.token);
@@ -45,8 +46,12 @@ const History = ({navigation, route}) => {
 
   return (
     <>
-      {data.length < 5 ? (
+      {data.length < 5 && data.length > 1 ? (
         <AppLoader />
+      ) : data.length <= 0 ? (
+        <View>
+          <Text>History Kosong</Text>
+        </View>
       ) : (
         <ScrollView
           contentContainerStyle={{
@@ -64,60 +69,14 @@ const History = ({navigation, route}) => {
           </View>
           {data.map(val => {
             return (
-              <TouchableOpacity
-                onLongPress={() => showModal()}
-                style={styles.card}
-                key={val.id}>
-                <Image
-                  style={styles.img}
-                  source={{
-                    uri: `${process.env.LOCAL_HOST}/${val.image}`,
-                  }}
-                />
-                <View style={styles.desc}>
-                  <Text
-                    style={{
-                      paddingTop: '5%',
-                      fontSize: 15,
-                      color: '#000',
-                      fontWeight: '700',
-                    }}>
-                    {val.vehicle}
-                  </Text>
-                  <Text
-                    style={{
-                      paddingTop: '5%',
-                      fontSize: 15,
-                      color: '#000',
-                    }}>
-                    {val.date}
-                  </Text>
-                  <Text
-                    style={{
-                      paddingTop: '5%',
-                      fontSize: 15,
-                      color: '#000',
-                    }}>
-                    Prepayment: Rp. {val.prepayment}
-                  </Text>
-                  <Text
-                    style={{
-                      paddingTop: '5%',
-                      fontSize: 15,
-                      color: 'green',
-                      fontWeight: '700',
-                    }}>
-                    {val.status}
-                  </Text>
-                </View>
-                <Checkbox
-                  style={{
-                    marginVertical: '15%',
-                  }}
-                  value={select}
-                  onValueChange={value => setSelect(value)}
-                  onCheckColor="black"
-                  animationDuration={0.5}
+              <TouchableOpacity onLongPress={() => showModal()} key={val.id}>
+                <HistoryCard
+                  photos={val.image}
+                  prepayment={val.prepayment}
+                  vehicle={val.vehicle}
+                  date={val.date}
+                  select={select}
+                  status={val.status}
                 />
               </TouchableOpacity>
             );

@@ -23,8 +23,10 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 const Detail = ({navigation, route}) => {
   const [data, setData] = useState([]);
   const [count, setCount] = useState(1);
-  const [day, setDay] = useState('1 Day');
+  const [day, setDay] = useState('');
   const [isPending, setPending] = useState(false);
+  const [error, setError] = useState(false);
+  const [loaded, setLoaded] = useState(false);
   console.log('PARAMS', route.params.id);
 
   // UPDATE STATE
@@ -67,15 +69,6 @@ const Detail = ({navigation, route}) => {
   };
 
   const updateData = () => {
-    // try {
-    //
-    //   const result = await updateVehicle(data.id, form, token);
-    //   console.log(result.data);
-    //   setPending(false);
-    // } catch (error) {
-    //   console.log(error);
-    //
-    // }
     setPending(true);
     RNFetchBlob.fetch(
       'PATCH',
@@ -123,6 +116,7 @@ const Detail = ({navigation, route}) => {
   const [mode, setMode] = useState('mode');
   const [show, setShow] = useState(false);
   const [text, setText] = useState('Select Date');
+  const [until, setUntil] = useState('');
 
   const showMode = currentMode => {
     setShow(true);
@@ -140,9 +134,44 @@ const Detail = ({navigation, route}) => {
       (tempDate.getMonth() + 1) +
       '/' +
       tempDate.getFullYear();
+    let NextDate =
+      tempDate.getDate() +
+      day +
+      '/' +
+      (tempDate.getMonth() + 1) +
+      '/' +
+      tempDate.getFullYear();
     setText(fDate);
-    console.log('RESULT: ', fDate);
+    setUntil(NextDate);
   };
+
+  // const numberFormater = value => {
+  //   new Intl.NumberFormat('id-ID', {
+  //     style: 'currency',
+  //     currency: 'IDR',
+  //     minimumFractionDigits: 0,
+  //   }).format(value);
+  // };
+
+  const formatRupiah = money => {
+    return new Intl.NumberFormat('id-ID', {
+      style: 'currency',
+      currency: 'IDR',
+      minimumFractionDigits: 0,
+    }).format(money);
+  };
+
+  const onImageLoaded = () => {
+    setLoaded(true);
+  };
+
+  const onImageError = () => {
+    setError(true);
+  };
+
+  let imgSrc = !error
+    ? {uri: `${process.env.LOCAL_HOST}/${data.image}`}
+    : require('../../assets/icons/default-vehicle.jpg');
 
   return (
     <>
@@ -152,10 +181,14 @@ const Detail = ({navigation, route}) => {
       ) : (
         <View style={styles.container}>
           <Image
-            source={{
-              uri: `${process.env.LOCAL_HOST}/${data.image}`,
-            }}
+            source={imgSrc}
             style={styles.image}
+            onLoad={() => {
+              onImageLoaded();
+            }}
+            onError={() => {
+              onImageError();
+            }}
           />
           <TouchableOpacity
             style={{
@@ -208,11 +241,11 @@ const Detail = ({navigation, route}) => {
             />
           )}
           {data.user_id !== users.id ? (
-            <Text style={styles.price}>{data.price}/Day</Text>
+            <Text style={styles.price}>{formatRupiah(data.price)}/Day</Text>
           ) : (
             <TextInput
               style={styles.price}
-              defaultValue={`${data.price}/Day`}
+              defaultValue={`${formatRupiah(data.price)}/Day`}
               onChangeText={text => setPrice(text)}
             />
           )}
@@ -360,7 +393,9 @@ const Detail = ({navigation, route}) => {
             }}>
             {data.user_id !== users.id ? (
               <>
-                <View style={styles.inputDate}>
+                <TouchableOpacity
+                  style={styles.inputDate}
+                  onPress={() => showMode('date')}>
                   <Text
                     style={{
                       color: '#000',
@@ -369,19 +404,29 @@ const Detail = ({navigation, route}) => {
                     }}>
                     {text}
                   </Text>
-                </View>
-                <TouchableOpacity
-                  style={styles.dayInput}
-                  onPress={() => showMode('date')}>
+                </TouchableOpacity>
+                {/* <TouchableOpacity style={styles.dayInput}>
                   <Text
                     style={{
                       color: '#000',
                       textAlign: 'center',
                       paddingTop: '14%',
                     }}>
-                    Tap To Open
+                    Select Date
                   </Text>
-                </TouchableOpacity>
+                </TouchableOpacity> */}
+                <Picker
+                  selectedValue={day}
+                  onValueChange={val => setDay(val)}
+                  style={styles.dayInput}>
+                  <Picker.Item label="1 Day" value={1} />
+                  <Picker.Item label="2 Day" value={2} />
+                  <Picker.Item label="3 Day" value={3} />
+                  <Picker.Item label="4 Day" value={4} />
+                  <Picker.Item label="5 Day" value={5} />
+                  <Picker.Item label="6 Day" value={6} />
+                  <Picker.Item label="7 Day" value={7} />
+                </Picker>
                 {show ? (
                   <DateTimePicker
                     value={date}
@@ -418,6 +463,8 @@ const Detail = ({navigation, route}) => {
                     image: data.image,
                     vehicleName: data.name,
                     owner_id: data.user_id,
+                    date: text,
+                    toDate: until,
                   };
                   navigation.navigate('FirstStep', params);
                 } catch (error) {
