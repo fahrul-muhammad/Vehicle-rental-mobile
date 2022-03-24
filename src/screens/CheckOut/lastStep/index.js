@@ -17,6 +17,7 @@ import {styles} from './styles';
 import {CheckOut} from '../../../module/checkout';
 import {getUserFireBaseToken} from '../../../module/users';
 import {sendRemoteNotification} from '../../../module/notification';
+import AppLoader from '../../AppLoader/index';
 
 const LastStep = ({navigation, route}) => {
   const {id} = useSelector(state => state.auth.userData);
@@ -24,6 +25,7 @@ const LastStep = ({navigation, route}) => {
   const [fbToken, setFbToken] = useState('');
   const [code, setCode] = useState('');
   const [numCode, setNumCode] = useState('');
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     getFBtoken();
@@ -49,6 +51,7 @@ const LastStep = ({navigation, route}) => {
         user_id: id,
         rating: 8,
       };
+      setLoading(true);
       const result = await CheckOut(token, body);
       console.log('RESULT HISTORY', result.data);
       const params = {
@@ -56,8 +59,10 @@ const LastStep = ({navigation, route}) => {
         ...route.params,
       };
       await notifToOwner();
+      setLoading(false);
       navigation.navigate('Done', params);
     } catch (error) {
+      setLoading(false);
       console.log(error);
     }
   };
@@ -277,6 +282,7 @@ const LastStep = ({navigation, route}) => {
             Finish Payment
           </Text>
         </TouchableOpacity>
+        {loading ? <AppLoader /> : null}
       </ScrollView>
     </View>
   );

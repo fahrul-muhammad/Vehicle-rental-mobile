@@ -23,6 +23,7 @@ import AddVehicle from './screens/AddVehicle/index';
 import UpdateProfile from './screens/profile/update';
 import Filter from './screens/VehicleCategory/filter';
 import RoomChat from './screens/Chat/roomChat/index';
+import UpdatePassword from './screens/UpdatePass';
 
 import {
   Text,
@@ -62,6 +63,7 @@ const Router = () => {
         <Stack.Screen name="UpdateProfile" component={UpdateProfile} />
         <Stack.Screen name="Filter" component={Filter} />
         <Stack.Screen name="RoomChat" component={RoomChat} />
+        <Stack.Screen name="UpdatePassword" component={UpdatePassword} />
       </Stack.Navigator>
     </NativeBaseProvider>
   );

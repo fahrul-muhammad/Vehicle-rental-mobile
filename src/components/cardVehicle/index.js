@@ -34,6 +34,13 @@ const CardVehicle = (props, {navigation}) => {
       }
     : require('../../assets/icons/default-vehicle.jpg');
 
+  const formatRupiah = money => {
+    return new Intl.NumberFormat('id-ID', {
+      style: 'currency',
+      currency: 'IDR',
+      minimumFractionDigits: 0,
+    }).format(money);
+  };
   return (
     <View style={styles.card}>
       <Image
@@ -50,7 +57,7 @@ const CardVehicle = (props, {navigation}) => {
       <Text style={styles.capacity}>Max For 2 Person</Text>
       <Text style={styles.distance}>2.1 Kilometer From Your Location</Text>
       <Text style={styles.avail}>Available</Text>
-      <Text style={styles.price}>{props.Price}/Day</Text>
+      <Text style={styles.price}>{formatRupiah(props.Price)}/Day</Text>
     </View>
   );
 };

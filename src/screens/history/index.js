@@ -46,7 +46,7 @@ const History = ({navigation, route}) => {
 
   return (
     <>
-      {data.length < 5 && data.length > 1 ? (
+      {data.length < 1 && data.length > 1 ? (
         <AppLoader />
       ) : data.length <= 0 ? (
         <View>

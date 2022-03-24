@@ -15,6 +15,8 @@ import {styles} from './styles';
 import {useSelector} from 'react-redux';
 
 const Done = ({navigation, route}) => {
+  const [error, setError] = useState(false);
+  const [loaded, setLoaded] = useState(false);
   console.log('DONE PAGE', route.params);
 
   const user = useSelector(state => state.auth.userData);
@@ -26,15 +28,27 @@ const Done = ({navigation, route}) => {
       minimumFractionDigits: 0,
     }).format(money);
   };
+
+  const onImageLoaded = () => {
+    setLoaded(true);
+  };
+
+  const onImageError = () => {
+    setError(true);
+  };
+
+  let imgSrc = !error
+    ? {uri: `${process.env.LOCAL_HOST}/${route.params.image}`}
+    : require('../../../assets/icons/default-vehicle.jpg');
   return (
     <View style={styles.container}>
       <Text style={styles.title}>See History</Text>
       <Text style={styles.notif}>Payment Success!</Text>
       <Image
         style={styles.img}
-        source={{
-          uri: `${process.env.LOCAL_HOST}/${route.params.image}`,
-        }}
+        source={imgSrc}
+        onLoad={onImageLoaded}
+        onError={onImageError}
       />
       <Text style={styles.name}>
         {route.params.quantity} {route.params.vehicleName}

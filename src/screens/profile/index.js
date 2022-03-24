@@ -117,8 +117,11 @@ const Profile = ({navigation}) => {
             width: '90%',
             height: '8%',
             marginLeft: '5%',
+          }}
+          onPress={() => {
+            navigation.navigate('UpdatePassword');
           }}>
-          <Text style={[styles.text, styles.help]}>Help</Text>
+          <Text style={[styles.text, styles.help]}>Update Password</Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={{

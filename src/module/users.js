@@ -17,3 +17,8 @@ export const getUserFireBaseToken = id => {
   const URL = `${process.env.LOCAL_HOST}/notif/gettoken/${id}`;
   return axios.get(URL);
 };
+
+export const UpdateUserPassword = (body, token) => {
+  const URL = `${process.env.LOCAL_HOST}/users/changePass`;
+  return axios.patch(URL, body, {headers: {token: token}});
+};
