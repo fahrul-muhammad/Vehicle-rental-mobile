@@ -17,7 +17,8 @@ import React, {useState} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import {styles} from './styles';
 import {logout} from '../../redux/action/auth';
-
+import {LogOut as UserLogOut} from '../../module/auth';
+import AppLoader from '../AppLoader/index';
 // NOTIFICATION TESTING
 import {successNotification} from '../../module/notification';
 
@@ -28,14 +29,25 @@ const Profile = ({navigation}) => {
   const [image, setImage] = useState();
   const [error, setError] = useState(false);
   const [loaded, setLoaded] = useState(false);
+  const [loading, setLoading] = useState(false);
   console.log('users', users);
 
   const dispatch = useDispatch();
+  const token = useSelector(state => state.auth.token);
 
-  const LogOut = () => {
-    dispatch(logout());
-    setShow(!isShow);
-    navigation.navigate('Login');
+  const LogOut = async () => {
+    try {
+      setLoading(true);
+      const result = await UserLogOut(token);
+      console.log(result.data);
+      dispatch(logout());
+      setShow(!isShow);
+      setLoading(false);
+      navigation.navigate('Login');
+    } catch (error) {
+      setLoading(false);
+      console.log(error);
+    }
   };
 
   const showModal = () => {
@@ -50,6 +62,14 @@ const Profile = ({navigation}) => {
     setError(true);
   };
 
+  // const userlOGOUT = async () => {
+  //   try {
+  //     const
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // }
+
   let imgSrc =
     users.profilepic === null
       ? require('../../assets/icons/dummy-profile-pic.png')
@@ -59,135 +79,141 @@ const Profile = ({navigation}) => {
 
   return (
     <>
-      <ScrollView
-        contentContainerStyle={{
-          flexGrow: 1,
-        }}
-        style={styles.container}>
-        <View
-          style={{
-            backgroundcolor: '#fff',
-            width: '100%',
-            height: 100,
-            position: 'relative',
-            display: 'flex',
-            justifyContent: 'center',
-          }}>
-          <Image
-            style={styles.img}
-            source={imgSrc}
-            onLoad={() => {
-              onImageLoaded();
+      {loading ? (
+        <AppLoader />
+      ) : (
+        <>
+          <ScrollView
+            contentContainerStyle={{
+              flexGrow: 1,
             }}
-            onError={() => {
-              onImageError();
-            }}
-          />
-          <Text style={styles.name}>{users.name}</Text>
-        </View>
-        <TouchableOpacity
-          style={{
-            width: '90%',
-            height: '8%',
-            marginLeft: '5%',
-          }}>
-          <Text style={[styles.fav, styles.text]}>Your favorite </Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={{
-            width: '90%',
-            height: '8%',
-            marginLeft: '5%',
-          }}
-          onPress={() => {
-            navigation.navigate('History');
-          }}>
-          <Text style={[styles.text, styles.history]}>History</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={{
-            width: '90%',
-            height: '8%',
-            marginLeft: '5%',
-          }}>
-          <Text style={[styles.text, styles.faq]}>FAQ</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={{
-            width: '90%',
-            height: '8%',
-            marginLeft: '5%',
-          }}
-          onPress={() => {
-            navigation.navigate('UpdatePassword');
-          }}>
-          <Text style={[styles.text, styles.help]}>Update Password</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={{
-            width: '90%',
-            height: '8%',
-            marginLeft: '5%',
-          }}
-          onPress={() => navigation.navigate('UpdateProfile')}>
-          <Text style={[styles.text, styles.update]}>Update Profile</Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => showModal()} style={styles.btn}>
-          <Text style={styles.btnText}>Log Out</Text>
-        </TouchableOpacity>
-      </ScrollView>
-      <Modal
-        transparent
-        visible={isShow}
-        onRequestClose={() => setShow(!isShow)}>
-        <View style={styles.modal}>
-          <View style={styles.content}>
-            <Text style={styles.modalTxt}>Are you sure to log out ?</Text>
+            style={styles.container}>
             <View
               style={{
-                display: 'flex',
-                flexDirection: 'row',
-                position: 'absolute',
-                bottom: '0%',
+                backgroundcolor: '#fff',
                 width: '100%',
-                height: '40%',
-                justifyContent: 'space-around',
-                alignItems: 'center',
+                height: 100,
+                position: 'relative',
+                display: 'flex',
+                justifyContent: 'center',
               }}>
-              <TouchableOpacity
-                style={{
-                  ...styles.modalBtn,
-                  backgroundColor: '#393939',
+              <Image
+                style={styles.img}
+                source={imgSrc}
+                onLoad={() => {
+                  onImageLoaded();
                 }}
-                onPress={() => LogOut()}>
-                <Text
-                  style={{
-                    fontSize: 18,
-                    fontWeight: '700',
-                    color: '#FFCD61',
-                  }}>
-                  Yes
-                </Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={{
-                  ...styles.modalBtn,
-                  backgroundColor: '#FFCD61',
+                onError={() => {
+                  onImageError();
                 }}
-                onPress={() => showModal()}>
-                <Text
-                  style={{
-                    fontSize: 18,
-                    fontWeight: '700',
-                    color: '#393939',
-                  }}>
-                  No
-                </Text>
-              </TouchableOpacity>
+              />
+              <Text style={styles.name}>{users.name}</Text>
             </View>
-          </View>
-        </View>
-      </Modal>
+            <TouchableOpacity
+              style={{
+                width: '90%',
+                height: '8%',
+                marginLeft: '5%',
+              }}>
+              <Text style={[styles.fav, styles.text]}>Your favorite </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={{
+                width: '90%',
+                height: '8%',
+                marginLeft: '5%',
+              }}
+              onPress={() => {
+                navigation.navigate('History');
+              }}>
+              <Text style={[styles.text, styles.history]}>History</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={{
+                width: '90%',
+                height: '8%',
+                marginLeft: '5%',
+              }}>
+              <Text style={[styles.text, styles.faq]}>FAQ</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={{
+                width: '90%',
+                height: '8%',
+                marginLeft: '5%',
+              }}
+              onPress={() => {
+                navigation.navigate('UpdatePassword');
+              }}>
+              <Text style={[styles.text, styles.help]}>Update Password</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={{
+                width: '90%',
+                height: '8%',
+                marginLeft: '5%',
+              }}
+              onPress={() => navigation.navigate('UpdateProfile')}>
+              <Text style={[styles.text, styles.update]}>Update Profile</Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => showModal()} style={styles.btn}>
+              <Text style={styles.btnText}>Log Out</Text>
+            </TouchableOpacity>
+          </ScrollView>
+          <Modal
+            transparent
+            visible={isShow}
+            onRequestClose={() => setShow(!isShow)}>
+            <View style={styles.modal}>
+              <View style={styles.content}>
+                <Text style={styles.modalTxt}>Are you sure to log out ?</Text>
+                <View
+                  style={{
+                    display: 'flex',
+                    flexDirection: 'row',
+                    position: 'absolute',
+                    bottom: '0%',
+                    width: '100%',
+                    height: '40%',
+                    justifyContent: 'space-around',
+                    alignItems: 'center',
+                  }}>
+                  <TouchableOpacity
+                    style={{
+                      ...styles.modalBtn,
+                      backgroundColor: '#393939',
+                    }}
+                    onPress={() => LogOut()}>
+                    <Text
+                      style={{
+                        fontSize: 18,
+                        fontWeight: '700',
+                        color: '#FFCD61',
+                      }}>
+                      Yes
+                    </Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    style={{
+                      ...styles.modalBtn,
+                      backgroundColor: '#FFCD61',
+                    }}
+                    onPress={() => showModal()}>
+                    <Text
+                      style={{
+                        fontSize: 18,
+                        fontWeight: '700',
+                        color: '#393939',
+                      }}>
+                      No
+                    </Text>
+                  </TouchableOpacity>
+                </View>
+              </View>
+            </View>
+          </Modal>
+        </>
+      )}
     </>
   );
 };

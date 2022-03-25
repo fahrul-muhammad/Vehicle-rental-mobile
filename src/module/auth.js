@@ -29,3 +29,8 @@ export const setNewPassword = body => {
   const URL = `${process.env.LOCAL_HOST}/auth/setnewpassword`;
   return axios.patch(URL, body);
 };
+
+export const LogOut = token => {
+  const URL = `${process.env.LOCAL_HOST}/auth/logout`;
+  return axios.post(URL, '', {headers: {token: token}});
+};
